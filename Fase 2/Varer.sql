@@ -1,26 +1,31 @@
 -- varenummer --
 SELECT product_id 
-FROM products
+FROM products;
 
 -- beskrivelse --
 SELECT product_name, quantity_per_unit 
-FROM products
+FROM products;
 
 -- pris --
 SELECT unit_price 
-FROM products
+FROM products;
 
 -- lagerbeholdning --
-SELECT units_in_stock FROM products
+SELECT units_in_stock FROM products;
 
 -- kombiner alle data --
 SELECT *
 FROM products
 JOIN suppliers
-ON products.supplier_id = suppliers.supplier_id
+ON products.supplier_id = suppliers.supplier_id;
 
 -- kombiner varenummer, beskrivelser, pris og lagerbeholdning -- 
-SELECT products.product_id, products.product_name, products.quantity_per_unit, suppliers.company_name, products.units_in_stock
+SELECT products.product_id, 
+	products.product_name, 
+	products.quantity_per_unit, 
+	suppliers.company_name AS supplier_name,
+	suppliers.country,
+	products.units_in_stock
 FROM products
 JOIN suppliers
 ON products.supplier_id = suppliers.supplier_id
