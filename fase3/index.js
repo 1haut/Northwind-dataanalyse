@@ -29,12 +29,19 @@ const questions = [
     },
     {
         type: 'list',
-        name: 'presentation',
+        name: 'format',
         message: 'How do you want to present the results?',
         choices: ['As a JSON-string', 'As a Table'],
     }
 ]
 
+function setPresentation(choice) {
+    if (choice === 'As a JSON-string') {
+        console.log(JSON.stringify(output))
+    } else {
+        console.table(output)
+    }
+}
 
 
 inquirer.
@@ -49,11 +56,7 @@ inquirer.
                         console.log("Error executing query", err.stack)
                     } else {
                         output = res.rows
-                        if (ans.presentation === 'As a JSON-string') {
-                            console.log(JSON.stringify(output))
-                        } else {
-                            console.table(output)
-                        }
+                        setPresentation(ans.format);
                     }
                 })
             } else {
