@@ -41,26 +41,6 @@ const questions = [
     }
 ]
 
-
-// inquirer.
-//     prompt(questions).
-//     then(
-//         (ans) => {
-//             if (ans.crud === 'Read') {
-//                 db.query(`SELECT * FROM ${ans.table}`, (err, res) => {
-//                     if (err) {
-//                         console.log("Error executing query", err.stack)
-//                     } else {
-//                         output = res.rows
-//                         console.log(output)
-//                     }
-//                 })
-//             } else {
-
-
-//             }
-//         })
-
 function handleProd() {
     // CREATE //
     db.query("INSERT INTO products(product_id, product_name, supplier_id, category_id) VALUES ($1, $2, $3, $4)",
@@ -111,5 +91,80 @@ async function handleOrders() {
     console.log(orderId)
 }
 
-function sgo() { }
+async function handleEmp() {
+    // CREATE //
+    const result = await db.query("SELECT MAX(employee_id) FROM employees")
+    let employeeId = result.rows[0].max + 1
 
+    console.log(employeeId)
+
+    db.query("INSERT INTO employees (employee_id, last_name, first_name, title, address, city, country) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+        [employeeId, 'Thornell', 'Guy', 'Inside Sales Coordinator', '3522 Hillcrest Drive', 'Tacoma', 'USA'],
+        (err) => {
+            if (err) {
+                console.log(err.stack)
+            } else {
+                console.log("suksess")
+            }
+        })
+
+    // UPDATE //
+    db.query("UPDATE employees SET first_name = $1 WHERE last_name = $2",
+        ['Garrett', 'Thornell'],
+        // UPDATE, gir ikke feil hvis ingen navn oppfyller kriteriene //
+        (err, res) => {
+            if (err) {
+                console.log(err.stack)
+            } else if (res.rowCount < 1) {
+                console.log("No data changed.")
+            } else {
+                console.log("Good")
+            }
+        })
+    // DELETE //
+    // Postpone //
+}
+function handleCust() {
+    // CREATE //
+    let businessName = "Sunshine Valley Retreat Center"
+    let businessId = businessName.replace(/\s+/g, '').slice(0, 5).toUpperCase()
+
+    console.log(businessId, businessName)
+
+    db.query("INSERT INTO customers (customer_id, company_name, contact_name, contact_title, phone, address, city, country) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+        [businessId, businessName, 'Sarah Thompson', 'Purchasing Manager', '(209) 244-0076', '1234 Meadow Lane', 'Pine Grove', 'USA'],
+        (err) => {
+            if (err) {
+                console.log(err.stack)
+            } else {
+                console.log("suksess")
+            }
+        })
+    // UPDATE //
+    db.query("UPDATE customers SET contact_name = $1 WHERE company_name = $2",
+        ['Zbyszek Piestrzeniewicz', 'Wolski  Zajazd'],
+        // UPDATE, gir ikke feil hvis ingen navn oppfyller kriteriene //
+        (err, res) => {
+            if (err) {
+                console.log(err.stack)
+            }
+            else if (res.rowCount < 1) {
+                console.log("No data changed.")
+            } else {
+                console.log("Good")
+            }
+        })
+    // DELETE //
+}
+
+function notFound() {
+    // TEXT //
+
+    // QUESTION //
+}
+
+function sgo() {
+
+}
+
+sgo()
