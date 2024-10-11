@@ -16,8 +16,7 @@ db.connect();
 
 let output = [];
 
-
-const questions = [
+const baseQuestions = [
     {
         type: 'list',
         name: 'crud',
@@ -33,11 +32,119 @@ const questions = [
             return val.toLowerCase()
         }
     },
+]
 
+async function updateInfo(tableName) {
+    try {
+        const results = await db.query("SELECT column_name FROM information_schema.columns WHERE table_schema = 'public' AND table_name = $1", [tableName])
+        let columns = []
+        results.rows.forEach((column) => {
+            columns.push(column.column_name)
+        });
+        return columns
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+updateInfo('products')
+
+let cols = []
+
+const readQuestion = [
+    {
+        type: 'list',
+        name: 'format',
+        message: 'How do you want to present the results?',
+        choices: ['As a JSON-string', 'As a Table'],
+    }
+]
+
+const updateQuestions = [
     {
         type: 'input',
-        name: 'info',
-        message: 'What [thing] do you wish to delete?'
+        name: 'nameThing',
+        message: 'Which things would you like to update?'
+    },
+    {
+        type: 'list',
+        name: 'col',
+        message: 'Select columns to update: ',
+        choices: cols
+    },
+    {
+        type: 'input',
+        name: 'valuesProduct',
+        message: 'Insert values, separated by comma:',
+        validate(values) {
+            if (values.split(',').length !== cols.length) {
+                return "You have entered an incorrect amount of values, (" + values.split(',').length + "), please try again.";
+            }
+            return true
+        },
+        waitUserInput: true
+    },
+]
+
+const createQuestions = [
+    {
+        type: 'input',
+        name: 'col',
+        message: 'Select columns to create: ',
+        choice: cols
+    },
+    {
+        type: 'input',
+        name: 'valuesProduct',
+        message: 'Insert values, separated by comma:',
+        validate(values) {
+            if (values.split(',').length !== cols.length) {
+                return "You have entered an incorrect amount of values, (" + values.split(',').length + "), please try again.";
+            }
+            return true
+        },
+        waitUserInput: true
+    },
+]
+
+function setPresentation(choice) {
+    if (choice === 'As a JSON-string') {
+        console.log(JSON.stringify(output))
+    } else {
+        console.table(output)
+    }
+}
+
+// inquirer
+//     .prompt(baseQuestions)
+//     .then(
+//         (baseAnswers) => {
+//             if (baseAnswers.crud === 'read') {
+//                 db.query(`SELECT * FROM ${baseAnswers.table}`, (err, res) => {
+//                     if (err) {
+//                         console.log("Error executing query", err.stack)
+//                     } else {
+//                         output = res.rows
+//                         setPresentation(baseAnswers.format);
+//                     }
+//                 })
+//             } else {
+//                 inquirer.prompt(newQuestions)
+//                     .then(
+//                         (ans2) => {
+//                             console.log(ans2)
+//                         }
+//                     )
+//                 console.log(typeof (baseAnswers.crud))
+//             }
+//         }
+//     )
+
+const newQuestions = [
+    {
+        type: 'input',
+        name: 'text',
+        message: 'Write something here, for the purpose of testing my ability to nest: '
     }
 ]
 
@@ -111,7 +218,6 @@ async function handleEmp() {
     // UPDATE //
     db.query("UPDATE employees SET first_name = $1 WHERE last_name = $2",
         ['Garrett', 'Thornell'],
-        // UPDATE, gir ikke feil hvis ingen navn oppfyller kriteriene //
         (err, res) => {
             if (err) {
                 console.log(err.stack)
@@ -122,7 +228,7 @@ async function handleEmp() {
             }
         })
     // DELETE //
-    // Postpone //
+
 }
 function handleCust() {
     // CREATE //
@@ -155,16 +261,17 @@ function handleCust() {
             }
         })
     // DELETE //
-}
-
-function notFound() {
-    // TEXT //
-
-    // QUESTION //
+    let orderId = 10249
+    db.query(`DELETE FROM order_details WHERE order_id = ${orderId}; DELETE FROM orders WHERE order_id = ${orderId};`,
+        (err) => {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log("DELETED")
+            }
+        })
 }
 
 function sgo() {
 
 }
-
-sgo()
