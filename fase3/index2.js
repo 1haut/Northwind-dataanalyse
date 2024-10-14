@@ -15,6 +15,30 @@ const db = new pg.Client({
 db.connect();
 
 let output = [];
+let cols = [];
+
+async function updateInfo(tableName) {
+    try {
+        const results = await db.query("SELECT column_name FROM information_schema.columns WHERE table_schema = 'public' AND table_name = $1", [tableName])
+        let columns = []
+        results.rows.forEach((column) => {
+            columns.push(column.column_name)
+        });
+        return columns
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+function setPresentation(choice) {
+    if (choice === 'As a JSON-string') {
+        console.log(JSON.stringify(output))
+    } else {
+        console.table(output)
+    }
+}
+
+// Inquirer questions //
 
 const baseQuestions = [
     {
@@ -34,23 +58,6 @@ const baseQuestions = [
     },
 ]
 
-async function updateInfo(tableName) {
-    try {
-        const results = await db.query("SELECT column_name FROM information_schema.columns WHERE table_schema = 'public' AND table_name = $1", [tableName])
-        let columns = []
-        results.rows.forEach((column) => {
-            columns.push(column.column_name)
-        });
-        return columns
-    } catch (err) {
-        console.log(err)
-    }
-}
-
-updateInfo('products')
-
-let cols = []
-
 const readQuestion = [
     {
         type: 'list',
@@ -63,22 +70,28 @@ const readQuestion = [
 const updateQuestions = [
     {
         type: 'input',
-        name: 'nameThing',
-        message: 'Which things would you like to update?'
+        name: 'col',
+        message: 'Insert the name of the column you want to update: ',
+        validate(value) {
+            if (!(cols.find(string => string === value))) {
+                return "There is no column with the name of: " + value + ", please try again."
+            }
+            return true
+        },
+        waitUserInput: true
     },
     {
-        type: 'list',
-        name: 'col',
-        message: 'Select columns to update: ',
-        choices: cols
+        type: 'input',
+        name: 'row',
+        message: 'Insert row you want to update: ',
     },
     {
         type: 'input',
         name: 'valuesProduct',
-        message: 'Insert values, separated by comma:',
+        message: 'Insert replacement value, separated by comma:',
         validate(values) {
-            if (values.split(',').length !== cols.length) {
-                return "You have entered an incorrect amount of values, (" + values.split(',').length + "), please try again.";
+            if (values.split(',').length !== 1) {
+                return "You have entered an incorrect amount of values (" + values.split(',').length + "), please try again.";
             }
             return true
         },
@@ -90,68 +103,31 @@ const createQuestions = [
     {
         type: 'input',
         name: 'col',
-        message: 'Select columns to create: ',
+        message: 'Select columns to create: ' + '343',
         choice: cols
     },
-    {
-        type: 'input',
-        name: 'valuesProduct',
-        message: 'Insert values, separated by comma:',
-        validate(values) {
-            if (values.split(',').length !== cols.length) {
-                return "You have entered an incorrect amount of values, (" + values.split(',').length + "), please try again.";
-            }
-            return true
-        },
-        waitUserInput: true
-    },
+    // {
+    //     type: 'input',
+    //     name: 'valuesProduct',
+    //     message: 'Insert values, separated by comma:',
+    //     validate(values) {
+    //         if (values.split(',').length !== cols.length) {
+    //             return "You have entered an incorrect amount of values (" + values.split(',').length + "), please try again.";
+    //         }
+    //         return true
+    //     },
+    //     waitUserInput: true
+    // },
 ]
 
-function setPresentation(choice) {
-    if (choice === 'As a JSON-string') {
-        console.log(JSON.stringify(output))
-    } else {
-        console.table(output)
-    }
-}
 
-// inquirer
-//     .prompt(baseQuestions)
-//     .then(
-//         (baseAnswers) => {
-//             if (baseAnswers.crud === 'read') {
-//                 db.query(`SELECT * FROM ${baseAnswers.table}`, (err, res) => {
-//                     if (err) {
-//                         console.log("Error executing query", err.stack)
-//                     } else {
-//                         output = res.rows
-//                         setPresentation(baseAnswers.format);
-//                     }
-//                 })
-//             } else {
-//                 inquirer.prompt(newQuestions)
-//                     .then(
-//                         (ans2) => {
-//                             console.log(ans2)
-//                         }
-//                     )
-//                 console.log(typeof (baseAnswers.crud))
-//             }
-//         }
-//     )
-
-const newQuestions = [
-    {
-        type: 'input',
-        name: 'text',
-        message: 'Write something here, for the purpose of testing my ability to nest: '
-    }
-]
-
-function handleProd() {
+async function handleProd() {
     // CREATE //
+    const result = await db.query("SELECT MAX(product_id) FROM products")
+    let prodId = result.rows[0].max + 1
+
     db.query("INSERT INTO products(product_id, product_name, supplier_id, category_id) VALUES ($1, $2, $3, $4)",
-        [77, 'Leverpostei', 15, 2],
+        [prodId, 'Leverpostei', 15, 2],
         (err) => {
             if (err) {
                 console.log(err.stack)
@@ -230,6 +206,7 @@ async function handleEmp() {
     // DELETE //
 
 }
+
 function handleCust() {
     // CREATE //
     let businessName = "Sunshine Valley Retreat Center"
@@ -271,6 +248,44 @@ function handleCust() {
             }
         })
 }
+
+inquirer
+    .prompt(baseQuestions)
+    .then(
+        async (baseAnswers) => {
+            if (baseAnswers.crud === 'Read') {
+                db.query(`SELECT * FROM ${baseAnswers.table}`, (err, res) => {
+                    if (err) {
+                        console.log("Error executing query", err.stack)
+                    } else {
+                        output = res.rows
+                        setPresentation(baseAnswers.format);
+                    }
+                })
+            } else if (baseAnswers.crud === 'Update') {
+                cols = await updateInfo(baseAnswers.table)
+                console.log("These are the columns you can update:")
+                console.log(cols)
+                inquirer.prompt(updateQuestions)
+                    .then(
+                        (updateAnswers) => {
+                            console.log(baseAnswers, updateAnswers)
+                        }
+                    )
+            } else if (baseAnswers.crud === 'Create') {
+                inquirer.prompt(createQuestions)
+                    .then(
+                        (createAnswers) => {
+                            console.log(baseAnswers, createAnswers)
+                        }
+                    )
+            }
+            else {
+                console.log(baseAnswers)
+            }
+        }
+    )
+
 
 function sgo() {
 
