@@ -16,6 +16,21 @@ db.connect();
 
 let output = [];
 let cols = [];
+const tables = ["products, orders, employees, customers"]
+const strColumns = [
+    "product_name, supplier_id, category_id",
+    "ship_name, ship_via, product_id, unit_price, quantity, discount",
+    "first_name, last_name, title, address, city, country",
+    "company_name, contact_name, contact_title, phone, address, city, country"
+]
+let createReqs = []
+
+const deleteQueries = [
+    "DELETE FROM order_details WHERE $1=$2; DELETE FROM products WHERE $1=$2",
+    "N/A",
+    "ALTER TABLE employees DROP CONSTRAINT pk_employees CASCADE;DELETE FROM employees WHERE employees.employee _id = 9;UPDATE orders SET employee_id = NULL WHERE employee_id = 9;ALTER TABLE IF EXISTS public.employees ADD CONSTRAINT pk_employees PRIMARY KEY (employee_id);ALTER TABLE IF EXISTS public.employees ADD CONSTRAINT fk_employees_employees FOREIGN KEY (reports_to) REFERENCES public.employees (employee_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;",
+    "DELETE FROM order_details WHERE $1 = $2; DELETE FROM orders WHERE $1 = $2"
+]
 
 async function updateInfo(tableName) {
     try {
@@ -38,6 +53,9 @@ function setPresentation(choice) {
     }
 }
 
+async function deleteCheck(x, y) {
+
+}
 // Inquirer questions //
 
 const baseQuestions = [
@@ -102,24 +120,25 @@ const updateQuestions = [
 const createQuestions = [
     {
         type: 'input',
-        name: 'col',
-        message: 'Select columns to create: ' + '343',
-        choice: cols
-    },
-    // {
-    //     type: 'input',
-    //     name: 'valuesProduct',
-    //     message: 'Insert values, separated by comma:',
-    //     validate(values) {
-    //         if (values.split(',').length !== cols.length) {
-    //             return "You have entered an incorrect amount of values (" + values.split(',').length + "), please try again.";
-    //         }
-    //         return true
-    //     },
-    //     waitUserInput: true
-    // },
+        name: 'valuesProduct',
+        message: 'Insert values for the columns [' + createReqs + '], separated by comma:',
+        validate(values) {
+            if (values.split(',').length !== createReqs.split(',').length) {
+                return "You have entered an incorrect amount of values (" + values.split(',').length + "), please try again.";
+            }
+            return true
+        },
+        waitUserInput: true
+    }
 ]
 
+const deleteQuestions = [
+    {
+        type: 'input',
+        name: 'deleteInfo',
+        message: "Please insert row and value in form |row, value|",
+    }
+]
 
 async function handleProd() {
     // CREATE //
@@ -178,8 +197,6 @@ async function handleEmp() {
     // CREATE //
     const result = await db.query("SELECT MAX(employee_id) FROM employees")
     let employeeId = result.rows[0].max + 1
-
-    console.log(employeeId)
 
     db.query("INSERT INTO employees (employee_id, last_name, first_name, title, address, city, country) VALUES ($1, $2, $3, $4, $5, $6, $7)",
         [employeeId, 'Thornell', 'Guy', 'Inside Sales Coordinator', '3522 Hillcrest Drive', 'Tacoma', 'USA'],
@@ -273,6 +290,8 @@ inquirer
                         }
                     )
             } else if (baseAnswers.crud === 'Create') {
+                const qIndex = tables.findIndex((table) => table === baseAnswers.table)
+                createReqs = strColumns[qIndex]
                 inquirer.prompt(createQuestions)
                     .then(
                         (createAnswers) => {
@@ -280,7 +299,15 @@ inquirer
                         }
                     )
             }
-            else {
+            else if (baseAnswers.crud === 'Delete') {
+                console.log(baseAnswers)
+                inquirer.prompt(deleteQuestions)
+                    .then(
+                        (deleteAnswers) => {
+                            console.log(baseAnswers, deleteAnswers)
+                        }
+                    )
+            } else {
                 console.log(baseAnswers)
             }
         }
