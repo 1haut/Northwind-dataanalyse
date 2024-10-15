@@ -16,7 +16,7 @@ db.connect();
 
 let output = [];
 let cols = [];
-const tables = ["products, orders, employees, customers"]
+const tables = ["products", "orders", "employees", "customers"]
 const strColumns = [
     "product_name, supplier_id, category_id",
     "ship_name, ship_via, product_id, unit_price, quantity, discount",
@@ -28,7 +28,7 @@ let createReqs = []
 const deleteQueries = [
     "DELETE FROM order_details WHERE $1=$2; DELETE FROM products WHERE $1=$2",
     "N/A",
-    "ALTER TABLE employees DROP CONSTRAINT pk_employees CASCADE;DELETE FROM employees WHERE employees.employee _id = 9;UPDATE orders SET employee_id = NULL WHERE employee_id = 9;ALTER TABLE IF EXISTS public.employees ADD CONSTRAINT pk_employees PRIMARY KEY (employee_id);ALTER TABLE IF EXISTS public.employees ADD CONSTRAINT fk_employees_employees FOREIGN KEY (reports_to) REFERENCES public.employees (employee_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;",
+    "ALTER TABLE employees DROP CONSTRAINT pk_employees CASCADE;DELETE FROM employees WHERE $1 = $2;UPDATE orders SET $1 = NULL WHERE $1 = $2;ALTER TABLE IF EXISTS public.employees ADD CONSTRAINT pk_employees PRIMARY KEY (employee_id);ALTER TABLE IF EXISTS public.employees ADD CONSTRAINT fk_employees_employees FOREIGN KEY (reports_to) REFERENCES public.employees (employee_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;",
     "DELETE FROM order_details WHERE $1 = $2; DELETE FROM orders WHERE $1 = $2"
 ]
 
@@ -121,7 +121,7 @@ const createQuestions = [
     {
         type: 'input',
         name: 'valuesProduct',
-        message: 'Insert values for the columns [' + createReqs + '], separated by comma:',
+        message: 'Insert values for the columns [' + tables + '], separated by comma:' + createReqs,
         validate(values) {
             if (values.split(',').length !== createReqs.split(',').length) {
                 return "You have entered an incorrect amount of values (" + values.split(',').length + "), please try again.";
@@ -140,6 +140,7 @@ const deleteQuestions = [
     }
 ]
 
+// Helper-functions //
 async function handleProd() {
     // CREATE //
     const result = await db.query("SELECT MAX(product_id) FROM products")
@@ -308,7 +309,7 @@ inquirer
                         }
                     )
             } else {
-                console.log(baseAnswers)
+                console.log("smth")
             }
         }
     )
