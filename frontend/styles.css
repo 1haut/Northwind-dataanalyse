@@ -1,0 +1,14 @@
+body {
+    font-family: "Roboto", sans-serif;
+    color: #654C4F
+}
+
+#main {
+    background-color: #ffebcd;
+
+}
+
+.title {
+    text-align: center;
+    padding: 20px 0;
+}
