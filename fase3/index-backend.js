@@ -27,7 +27,7 @@ const strColumns = [
 
 
 const deleteQueries = [
-    "DELETE FROM order_details WHERE $1=$2; DELETE FROM products WHERE $1=$2",
+    "DELETE FROM order_details WHERE order_id=$2; DELETE FROM products WHERE product_id=$2",
     "N/A",
     "ALTER TABLE employees DROP CONSTRAINT pk_employees CASCADE;DELETE FROM employees WHERE $1 = $2;UPDATE orders SET $1 = NULL WHERE $1 = $2;ALTER TABLE IF EXISTS public.employees ADD CONSTRAINT pk_employees PRIMARY KEY (employee_id);ALTER TABLE IF EXISTS public.employees ADD CONSTRAINT fk_employees_employees FOREIGN KEY (reports_to) REFERENCES public.employees (employee_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;",
     "DELETE FROM order_details WHERE $1 = $2; DELETE FROM orders WHERE $1 = $2"
@@ -46,22 +46,9 @@ async function updateInfo(tableName) {
     }
 }
 
-function setPresentation(choice) {
-    if (choice === 'As a JSON-string') {
-        console.log(JSON.stringify(output))
-    } else {
-        console.table(output)
-    }
-}
-
 // Inquirer questions //
 
 const baseQuestions = [
-    {
-        type: 'confirm',
-        name: 'method',
-        message: 'Do you want to write SQL-queries on the command line?'
-    },
     {
         type: 'list',
         name: 'crud',
@@ -79,8 +66,8 @@ const baseQuestions = [
     },
 ]
 
-function queryUpdate(table, row, oldValue, newValue) {
-    db.query(`UPDATE ${table} SET ${row} = ${newValue} WHERE ${row} = ${oldValue}`,
+function queryUpdate(table, col, oldValue, newValue) {
+    db.query(`UPDATE ${table} SET ${col} = $1 WHERE ${col} = $2`, [newValue, oldValue],
         (err, res) => {
             if (err) {
                 console.log(err.stack)
@@ -94,7 +81,8 @@ function queryUpdate(table, row, oldValue, newValue) {
 }
 
 async function queryCreate(table, columns, values) {
-    const arrValues = values.split(',')
+    let arrValues = values.split(',')
+    let arrColumns = columns.split(',')
     const idColumn = table.slice(0, -1) + '_id'
     let newId
 
@@ -106,7 +94,14 @@ async function queryCreate(table, columns, values) {
         newId = result.rows[0].max + 1
     }
 
-    db.query(`INSERT INTO ${table}(${idColumn}, ${columns}) VALUES (${newId}, ${values})`,
+    arrValues = newId + ', ' + arrValues
+    arrColumns = idColumn + ', ' + arrColumns
+    arrValues = arrValues.split(',')
+
+    console.log(arrValues + '\n' + arrColumns)
+    console.log(typeof (arrValues))
+
+    db.query(`INSERT INTO ${table}(${arrColumns}) VALUES ($1)`, [arrValues],
         (err) => {
             if (err) {
                 console.log(err.stack)
@@ -116,8 +111,9 @@ async function queryCreate(table, columns, values) {
         })
 }
 
-function queryDelete(table, row, value) {
-    db.query(`DELETE FROM ${table} WHERE ${row} = ${value}`,
+function queryDelete(table, col, value) {
+
+    db.query(`DELETE FROM ${table} WHERE ${col} = ${value}`,
         (err) => {
             if (err) {
                 console.log(err.stack)
@@ -128,11 +124,12 @@ function queryDelete(table, row, value) {
     )
 }
 
-// Helper-functions //
-async function handleProd() {
-    // CREATE //
-    const result = await db.query("SELECT MAX(product_id) FROM products")
-    let prodId = result.rows[0].max + 1
+
+// Helpers v2 //
+async function handleCreate() {
+    // products //
+    const r1 = db.query("SELECT MAX(product_id) FROM products")
+    let prodId = r1.rows[0].max + 1
 
     db.query("INSERT INTO products(product_id, product_name, supplier_id, category_id) VALUES ($1, $2, $3, $4)",
         [prodId, 'Leverpostei', 15, 2],
@@ -143,32 +140,9 @@ async function handleProd() {
                 console.log("suksess")
             }
         })
-
-    // UPDATE //
-    db.query("UPDATE products SET product_name = $1 WHERE product_name = $2",
-        ['Makrell i tomat', 'Jarlsberg'],
-        (err) => {
-            if (err) {
-                console.log(err.stack)
-            } else {
-                console.log("suksess")
-            }
-        })
-    // DELETE //
-    db.query("DELETE FROM order_details WHERE product_id=77; DELETE FROM products WHERE product_id=77;",
-        (err) => {
-            if (err) {
-                console.log(err.stack)
-            } else {
-                console.log("All Good")
-            }
-        })
-}
-
-async function handleOrders() {
-    // CREATE //
-    const result = await db.query("SELECT MAX(order_id) FROM orders")
-    let orderId = result.rows[0].max + 1
+    // orders //
+    const r2 = await db.query("SELECT MAX(order_id) FROM orders")
+    let orderId = r2.rows[0].max + 1
     try {
         db.query("INSERT INTO orders(order_id, ship_name, ship_via) VALUES ($1, $2, $3)", [orderId, "La Maison d'Asie", 3])
         try {
@@ -179,11 +153,7 @@ async function handleOrders() {
     } catch (err) {
         console.log(err)
     }
-    console.log(orderId)
-}
-
-async function handleEmp() {
-    // CREATE //
+    // employees //
     const result = await db.query("SELECT MAX(employee_id) FROM employees")
     let employeeId = result.rows[0].max + 1
 
@@ -196,25 +166,7 @@ async function handleEmp() {
                 console.log("suksess")
             }
         })
-
-    // UPDATE //
-    db.query("UPDATE employees SET first_name = $1 WHERE last_name = $2",
-        ['Garrett', 'Thornell'],
-        (err, res) => {
-            if (err) {
-                console.log(err.stack)
-            } else if (res.rowCount < 1) {
-                console.log("No data changed.")
-            } else {
-                console.log("Good")
-            }
-        })
-    // DELETE //
-
-}
-
-function handleCust() {
-    // CREATE //
+    // customers //
     let businessName = "Sunshine Valley Retreat Center"
     let businessId = businessName.replace(/\s+/g, '').slice(0, 5).toUpperCase()
 
@@ -229,21 +181,19 @@ function handleCust() {
                 console.log("suksess")
             }
         })
-    // UPDATE //
-    db.query("UPDATE customers SET contact_name = $1 WHERE company_name = $2",
-        ['Zbyszek Piestrzeniewicz', 'Wolski  Zajazd'],
-        // UPDATE, gir ikke feil hvis ingen navn oppfyller kriteriene //
-        (err, res) => {
+}
+
+function handleDelete() {
+    // orders //
+    db.query("DELETE FROM order_details WHERE product_id=77; DELETE FROM products WHERE product_id=77;",
+        (err) => {
             if (err) {
                 console.log(err.stack)
-            }
-            else if (res.rowCount < 1) {
-                console.log("No data changed.")
             } else {
-                console.log("Good")
+                console.log("All Good")
             }
         })
-    // DELETE //
+    // customers //
     let orderId = 10249
     db.query(`DELETE FROM order_details WHERE order_id = ${orderId}; DELETE FROM orders WHERE order_id = ${orderId};`,
         (err) => {
@@ -265,10 +215,10 @@ inquirer
                         console.log("Error executing query", err.stack)
                     } else {
                         output = res.rows
-                        setPresentation(baseAnswers.format);
+                        console.log(JSON.stringify(output))
                     }
                 })
-            } else if (baseAnswers.crud === 'Update') {
+            } else if (baseAnswers.crud === 'Update' && baseAnswers.table !== 'orders') {
                 cols = await updateInfo(baseAnswers.table)
                 console.log("These are the columns you can update:")
                 console.log(cols)
@@ -308,7 +258,7 @@ inquirer
                     .then(
                         (updateAnswers) => {
                             console.log(baseAnswers, updateAnswers)
-
+                            queryUpdate(baseAnswers.table, updateAnswers.col, updateAnswers.oldValue, updateAnswers.newValue)
                         }
                     )
             } else if (baseAnswers.crud === 'Create') {
@@ -331,11 +281,12 @@ inquirer
                 )
                     .then(
                         (createAnswers) => {
+                            queryCreate(baseAnswers.table, createReqs, createAnswers.values)
                             console.log(baseAnswers, createAnswers)
                         }
                     )
             }
-            else if (baseAnswers.crud === 'Delete') {
+            else if (baseAnswers.crud === 'Delete' && baseAnswers.table !== 'orders') {
                 console.log(baseAnswers)
                 inquirer.prompt(
                     [
@@ -359,7 +310,7 @@ inquirer
                         }
                     )
             } else {
-                console.log("smth")
+                console.log("Updating or deleting orders is not permissable, please try again.")
             }
         }
     )
