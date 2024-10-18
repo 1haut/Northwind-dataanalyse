@@ -10,3 +10,4 @@ JOIN suppliers ON products.supplier_id = suppliers.supplier_id
 JOIN order_details ON products.product_id = order_details.product_id
 GROUP BY suppliers.supplier_id
 ORDER BY total_sales DESC;
+
