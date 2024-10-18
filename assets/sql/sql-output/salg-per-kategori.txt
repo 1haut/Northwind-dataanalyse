@@ -1,0 +1,19 @@
+-- salg per kategori --
+SELECT categories.category_name, COUNT(categories.category_id) AS sales_per_category
+FROM products
+JOIN order_details ON products.product_id = order_details.product_id
+JOIN categories ON products.category_id = categories.category_id
+GROUP BY categories.category_id
+
+┌─────────┬──────────────────┬────────────────────┐
+│ (index) │ category_name    │ sales_per_category │
+├─────────┼──────────────────┼────────────────────┤
+│ 0       │ 'Seafood'        │ '330'              │
+│ 1       │ 'Produce'        │ '136'              │
+│ 2       │ 'Beverages'      │ '404'              │
+│ 3       │ 'Grains/Cereals' │ '196'              │
+│ 4       │ 'Condiments'     │ '216'              │
+│ 5       │ 'Dairy Products' │ '366'              │
+│ 6       │ 'Meat/Poultry'   │ '173'              │
+│ 7       │ 'Confections'    │ '334'              │
+└─────────┴──────────────────┴────────────────────┘

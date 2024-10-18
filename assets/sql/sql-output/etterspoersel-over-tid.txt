@@ -1,0 +1,45 @@
+WITH months AS (
+    SELECT to_char(date_trunc('month', generate_series(
+        (SELECT MIN(order_date) FROM orders), 
+        (SELECT MAX(order_date) FROM orders),
+        '1 month'::interval
+    )), 'yyyy-mm') AS order_month
+)
+SELECT
+    'Geitost' AS prod_name,
+    months.order_month,
+    COUNT(CASE WHEN products.product_name = 'Geitost' THEN order_details.order_id END) AS number_of_sales
+FROM months
+LEFT JOIN orders ON to_char(date_trunc('month', orders.order_date), 'yyyy-mm') = months.order_month
+LEFT JOIN order_details ON order_details.order_id = orders.order_id
+LEFT JOIN products ON order_details.product_id = products.product_id
+GROUP BY months.order_month
+ORDER BY months.order_month;
+
+┌─────────┬───────────┬─────────────┬─────────────────┐
+│ (index) │ prod_name │ order_month │ number_of_sales │
+├─────────┼───────────┼─────────────┼─────────────────┤
+│ 0       │ 'Geitost' │ '1996-07'   │ '2'             │
+│ 1       │ 'Geitost' │ '1996-08'   │ '2'             │
+│ 2       │ 'Geitost' │ '1996-09'   │ '0'             │
+│ 3       │ 'Geitost' │ '1996-10'   │ '1'             │
+│ 4       │ 'Geitost' │ '1996-11'   │ '0'             │
+│ 5       │ 'Geitost' │ '1996-12'   │ '1'             │
+│ 6       │ 'Geitost' │ '1997-01'   │ '3'             │
+│ 7       │ 'Geitost' │ '1997-02'   │ '1'             │
+│ 8       │ 'Geitost' │ '1997-03'   │ '1'             │
+│ 9       │ 'Geitost' │ '1997-04'   │ '1'             │
+│ 10      │ 'Geitost' │ '1997-05'   │ '3'             │
+│ 11      │ 'Geitost' │ '1997-06'   │ '2'             │
+│ 12      │ 'Geitost' │ '1997-07'   │ '1'             │
+│ 13      │ 'Geitost' │ '1997-08'   │ '1'             │
+│ 14      │ 'Geitost' │ '1997-09'   │ '3'             │
+│ 15      │ 'Geitost' │ '1997-10'   │ '0'             │
+│ 16      │ 'Geitost' │ '1997-11'   │ '0'             │
+│ 17      │ 'Geitost' │ '1997-12'   │ '0'             │
+│ 18      │ 'Geitost' │ '1998-01'   │ '3'             │
+│ 19      │ 'Geitost' │ '1998-02'   │ '2'             │
+│ 20      │ 'Geitost' │ '1998-03'   │ '2'             │
+│ 21      │ 'Geitost' │ '1998-04'   │ '3'             │
+│ 22      │ 'Geitost' │ '1998-05'   │ '0'             │
+└─────────┴───────────┴─────────────┴─────────────────┘

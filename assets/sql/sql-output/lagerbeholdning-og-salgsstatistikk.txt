@@ -1,0 +1,89 @@
+-- mest solgte varer && lagerbeholdning--
+SELECT products.product_name, COUNT(products.product_id) AS product_sales, products.units_in_stock
+FROM order_details
+JOIN products
+ON order_details.product_id = products.product_id
+GROUP BY products.product_id
+ORDER BY product_sales DESC;
+
+┌─────────┬────────────────────────────────────┬───────────────┬────────────────┐
+│ (index) │ product_name                       │ product_sales │ units_in_stock │
+├─────────┼────────────────────────────────────┼───────────────┼────────────────┤
+│ 0       │ 'Raclette Courdavault'             │ '54'          │ 79             │
+│ 1       │ 'Gorgonzola Telino'                │ '51'          │ 0              │
+│ 2       │ 'Guaraná Fantástica'               │ '51'          │ 20             │
+│ 3       │ 'Camembert Pierrot'                │ '51'          │ 19             │
+│ 4       │ 'Gnocchi di nonna Alice'           │ '50'          │ 21             │
+│ 5       │ 'Tarte au sucre'                   │ '48'          │ 17             │
+│ 6       │ "Jack's New England Clam Chowder"  │ '47'          │ 85             │
+│ 7       │ 'Rhönbräu Klosterbier'             │ '46'          │ 125            │
+│ 8       │ 'Chang'                            │ '44'          │ 17             │
+│ 9       │ 'Pavlova'                          │ '43'          │ 29             │
+│ 10      │ 'Flotemysost'                      │ '42'          │ 26             │
+│ 11      │ 'Boston Crab Meat'                 │ '41'          │ 123            │
+│ 12      │ 'Konbu'                            │ '40'          │ 24             │
+│ 13      │ "Sir Rodney's Scones"              │ '39'          │ 3              │
+│ 14      │ 'Manjimup Dried Apples'            │ '39'          │ 20             │
+│ 15      │ 'Lakkalikööri'                     │ '39'          │ 57             │
+│ 16      │ 'Outback Lager'                    │ '39'          │ 15             │
+│ 17      │ 'Queso Cabrales'                   │ '38'          │ 22             │
+│ 18      │ 'Chai'                             │ '38'          │ 39             │
+│ 19      │ 'Original Frankfurter grüne Soße'  │ '38'          │ 32             │
+│ 20      │ 'Mozzarella di Giovanni'           │ '38'          │ 14             │
+│ 21      │ 'Teatime Chocolate Biscuits'       │ '37'          │ 25             │
+│ 22      │ 'Alice Mutton'                     │ '37'          │ 0              │
+│ 23      │ 'Tourtière'                        │ '36'          │ 21             │
+│ 24      │ 'Steeleye Stout'                   │ '36'          │ 20             │
+│ 25      │ 'Scottish Longbreads'              │ '34'          │ 6              │
+│ 26      │ 'Ikura'                            │ '33'          │ 31             │
+│ 27      │ 'Pâté chinois'                     │ '33'          │ 115            │
+│ 28      │ 'Rössle Sauerkraut'                │ '33'          │ 26             │
+│ 29      │ 'Gumbär Gummibärchen'              │ '32'          │ 15             │
+│ 30      │ 'Thüringer Rostbratwurst'          │ '32'          │ 0              │
+│ 31      │ 'Louisiana Fiery Hot Pepper Sauce' │ '32'          │ 76             │
+│ 32      │ 'Geitost'                          │ '32'          │ 112            │
+│ 33      │ 'Nord-Ost Matjeshering'            │ '32'          │ 10             │
+│ 34      │ 'Inlagd Sill'                      │ '31'          │ 112            │
+│ 35      │ 'Gudbrandsdalsost'                 │ '31'          │ 26             │
+│ 36      │ 'Singaporean Hokkien Fried Mee'    │ '30'          │ 26             │
+│ 37      │ 'Wimmers gute Semmelknödel'        │ '30'          │ 22             │
+│ 38      │ 'Chartreuse verte'                 │ '30'          │ 69             │
+│ 39      │ 'Perth Pasties'                    │ '30'          │ 0              │
+│ 40      │ "Uncle Bob's Organic Dried Pears"  │ '29'          │ 15             │
+│ 41      │ 'Filo Mix'                         │ '29'          │ 38             │
+│ 42      │ 'Ipoh Coffee'                      │ '28'          │ 17             │
+│ 43      │ 'Spegesild'                        │ '27'          │ 95             │
+│ 44      │ 'Carnarvon Tigers'                 │ '27'          │ 42             │
+│ 45      │ "Sirop d'érable"                   │ '24'          │ 113            │
+│ 46      │ 'Gula Malacca'                     │ '24'          │ 27             │
+│ 47      │ 'Côte de Blaye'                    │ '24'          │ 17             │
+│ 48      │ 'Ravioli Angelo'                   │ '23'          │ 36             │
+│ 49      │ 'Tofu'                             │ '22'          │ 35             │
+│ 50      │ 'Maxilaku'                         │ '21'          │ 10             │
+│ 51      │ 'Zaanse koeken'                    │ '21'          │ 36             │
+│ 52      │ 'Tunnbröd'                         │ '20'          │ 61             │
+│ 53      │ "Chef Anton's Cajun Seasoning"     │ '20'          │ 53             │
+│ 54      │ 'Sasquatch Ale'                    │ '19'          │ 111            │
+│ 55      │ 'Escargots de Bourgogne'           │ '18'          │ 62             │
+│ 56      │ 'NuNuCa Nuß-Nougat-Creme'          │ '18'          │ 76             │
+│ 57      │ 'Vegie-spread'                     │ '17'          │ 24             │
+│ 58      │ "Sir Rodney's Marmalade"           │ '16'          │ 40             │
+│ 59      │ 'Mascarpone Fabioli'               │ '15'          │ 9              │
+│ 60      │ 'Queso Manchego La Pastora'        │ '14'          │ 86             │
+│ 61      │ 'Röd Kaviar'                       │ '14'          │ 101            │
+│ 62      │ "Gustaf's Knäckebröd"              │ '14'          │ 104            │
+│ 63      │ 'Rogede sild'                      │ '14'          │ 5              │
+│ 64      │ 'Northwoods Cranberry Sauce'       │ '13'          │ 6              │
+│ 65      │ 'Longlife Tofu'                    │ '13'          │ 4              │
+│ 66      │ 'Aniseed Syrup'                    │ '12'          │ 13             │
+│ 67      │ "Grandma's Boysenberry Spread"     │ '12'          │ 120            │
+│ 68      │ 'Laughing Lumberjack Lager'        │ '10'          │ 52             │
+│ 69      │ "Chef Anton's Gumbo Mix"           │ '10'          │ 0              │
+│ 70      │ 'Valkoinen suklaa'                 │ '10'          │ 65             │
+│ 71      │ 'Schoggi Schokolade'               │ '9'           │ 49             │
+│ 72      │ 'Louisiana Hot Spiced Okra'        │ '8'           │ 4              │
+│ 73      │ 'Chocolade'                        │ '6'           │ 15             │
+│ 74      │ 'Genen Shouyu'                     │ '6'           │ 39             │
+│ 75      │ 'Gravad lax'                       │ '6'           │ 11             │
+│ 76      │ 'Mishi Kobe Niku'                  │ '5'           │ 29             │
+└─────────┴────────────────────────────────────┴───────────────┴────────────────┘

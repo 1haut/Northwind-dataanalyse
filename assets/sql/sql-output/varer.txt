@@ -1,0 +1,92 @@
+-- kombiner varenummer, beskrivelser, pris og lagerbeholdning -- 
+SELECT products.product_id, 
+	products.product_name, 
+	products.quantity_per_unit, 
+	suppliers.company_name AS supplier_name,
+	suppliers.country,
+	products.units_in_stock
+FROM products
+JOIN suppliers
+ON products.supplier_id = suppliers.supplier_id;
+
+┌─────────┬────────────┬────────────────────────────────────┬────────────────────────┬──────────────────────────────────────────┬───────────────┬────────────────┐
+│ (index) │ product_id │ product_name                       │ quantity_per_unit      │ supplier_name                            │ country       │ units_in_stock │
+├─────────┼────────────┼────────────────────────────────────┼────────────────────────┼──────────────────────────────────────────┼───────────────┼────────────────┤
+│ 0       │ 3          │ 'Aniseed Syrup'                    │ '12 - 550 ml bottles'  │ 'Exotic Liquids'                         │ 'UK'          │ 13             │
+│ 1       │ 4          │ "Chef Anton's Cajun Seasoning"     │ '48 - 6 oz jars'       │ 'New Orleans Cajun Delights'             │ 'USA'         │ 53             │
+│ 2       │ 5          │ "Chef Anton's Gumbo Mix"           │ '36 boxes'             │ 'New Orleans Cajun Delights'             │ 'USA'         │ 0              │
+│ 3       │ 6          │ "Grandma's Boysenberry Spread"     │ '12 - 8 oz jars'       │ "Grandma Kelly's Homestead"              │ 'USA'         │ 120            │
+│ 4       │ 7          │ "Uncle Bob's Organic Dried Pears"  │ '12 - 1 lb pkgs.'      │ "Grandma Kelly's Homestead"              │ 'USA'         │ 15             │
+│ 5       │ 8          │ 'Northwoods Cranberry Sauce'       │ '12 - 12 oz jars'      │ "Grandma Kelly's Homestead"              │ 'USA'         │ 6              │
+│ 6       │ 9          │ 'Mishi Kobe Niku'                  │ '18 - 500 g pkgs.'     │ 'Tokyo Traders'                          │ 'Japan'       │ 29             │
+│ 7       │ 10         │ 'Ikura'                            │ '12 - 200 ml jars'     │ 'Tokyo Traders'                          │ 'Japan'       │ 31             │
+│ 8       │ 11         │ 'Queso Cabrales'                   │ '1 kg pkg.'            │ "Cooperativa de Quesos 'Las Cabras'"     │ 'Spain'       │ 22             │
+│ 9       │ 12         │ 'Queso Manchego La Pastora'        │ '10 - 500 g pkgs.'     │ "Cooperativa de Quesos 'Las Cabras'"     │ 'Spain'       │ 86             │
+│ 10      │ 13         │ 'Konbu'                            │ '2 kg box'             │ "Mayumi's"                               │ 'Japan'       │ 24             │
+│ 11      │ 14         │ 'Tofu'                             │ '40 - 100 g pkgs.'     │ "Mayumi's"                               │ 'Japan'       │ 35             │
+│ 12      │ 15         │ 'Genen Shouyu'                     │ '24 - 250 ml bottles'  │ "Mayumi's"                               │ 'Japan'       │ 39             │
+│ 13      │ 16         │ 'Pavlova'                          │ '32 - 500 g boxes'     │ 'Pavlova, Ltd.'                          │ 'Australia'   │ 29             │
+│ 14      │ 17         │ 'Alice Mutton'                     │ '20 - 1 kg tins'       │ 'Pavlova, Ltd.'                          │ 'Australia'   │ 0              │
+│ 15      │ 18         │ 'Carnarvon Tigers'                 │ '16 kg pkg.'           │ 'Pavlova, Ltd.'                          │ 'Australia'   │ 42             │
+│ 16      │ 19         │ 'Teatime Chocolate Biscuits'       │ '10 boxes x 12 pieces' │ 'Specialty Biscuits, Ltd.'               │ 'UK'          │ 25             │
+│ 17      │ 20         │ "Sir Rodney's Marmalade"           │ '30 gift boxes'        │ 'Specialty Biscuits, Ltd.'               │ 'UK'          │ 40             │
+│ 18      │ 21         │ "Sir Rodney's Scones"              │ '24 pkgs. x 4 pieces'  │ 'Specialty Biscuits, Ltd.'               │ 'UK'          │ 3              │
+│ 19      │ 22         │ "Gustaf's Knäckebröd"              │ '24 - 500 g pkgs.'     │ 'PB Knäckebröd AB'                       │ 'Sweden'      │ 104            │
+│ 20      │ 23         │ 'Tunnbröd'                         │ '12 - 250 g pkgs.'     │ 'PB Knäckebröd AB'                       │ 'Sweden'      │ 61             │
+│ 21      │ 24         │ 'Guaraná Fantástica'               │ '12 - 355 ml cans'     │ 'Refrescos Americanas LTDA'              │ 'Brazil'      │ 20             │
+│ 22      │ 25         │ 'NuNuCa Nuß-Nougat-Creme'          │ '20 - 450 g glasses'   │ 'Heli Süßwaren GmbH & Co. KG'            │ 'Germany'     │ 76             │
+│ 23      │ 26         │ 'Gumbär Gummibärchen'              │ '100 - 250 g bags'     │ 'Heli Süßwaren GmbH & Co. KG'            │ 'Germany'     │ 15             │
+│ 24      │ 27         │ 'Schoggi Schokolade'               │ '100 - 100 g pieces'   │ 'Heli Süßwaren GmbH & Co. KG'            │ 'Germany'     │ 49             │
+│ 25      │ 28         │ 'Rössle Sauerkraut'                │ '25 - 825 g cans'      │ 'Plutzer Lebensmittelgroßmärkte AG'      │ 'Germany'     │ 26             │
+│ 26      │ 29         │ 'Thüringer Rostbratwurst'          │ '50 bags x 30 sausgs.' │ 'Plutzer Lebensmittelgroßmärkte AG'      │ 'Germany'     │ 0              │
+│ 27      │ 30         │ 'Nord-Ost Matjeshering'            │ '10 - 200 g glasses'   │ 'Nord-Ost-Fisch Handelsgesellschaft mbH' │ 'Germany'     │ 10             │
+│ 28      │ 31         │ 'Gorgonzola Telino'                │ '12 - 100 g pkgs'      │ 'Formaggi Fortini s.r.l.'                │ 'Italy'       │ 0              │
+│ 29      │ 32         │ 'Mascarpone Fabioli'               │ '24 - 200 g pkgs.'     │ 'Formaggi Fortini s.r.l.'                │ 'Italy'       │ 9              │
+│ 30      │ 33         │ 'Geitost'                          │ '500 g'                │ 'Norske Meierier'                        │ 'Norway'      │ 112            │
+│ 31      │ 34         │ 'Sasquatch Ale'                    │ '24 - 12 oz bottles'   │ 'Bigfoot Breweries'                      │ 'USA'         │ 111            │
+│ 32      │ 35         │ 'Steeleye Stout'                   │ '24 - 12 oz bottles'   │ 'Bigfoot Breweries'                      │ 'USA'         │ 20             │
+│ 33      │ 36         │ 'Inlagd Sill'                      │ '24 - 250 g  jars'     │ 'Svensk Sjöföda AB'                      │ 'Sweden'      │ 112            │
+│ 34      │ 37         │ 'Gravad lax'                       │ '12 - 500 g pkgs.'     │ 'Svensk Sjöföda AB'                      │ 'Sweden'      │ 11             │
+│ 35      │ 38         │ 'Côte de Blaye'                    │ '12 - 75 cl bottles'   │ 'Aux joyeux ecclésiastiques'             │ 'France'      │ 17             │
+│ 36      │ 39         │ 'Chartreuse verte'                 │ '750 cc per bottle'    │ 'Aux joyeux ecclésiastiques'             │ 'France'      │ 69             │
+│ 37      │ 40         │ 'Boston Crab Meat'                 │ '24 - 4 oz tins'       │ 'New England Seafood Cannery'            │ 'USA'         │ 123            │
+│ 38      │ 41         │ "Jack's New England Clam Chowder"  │ '12 - 12 oz cans'      │ 'New England Seafood Cannery'            │ 'USA'         │ 85             │
+│ 39      │ 42         │ 'Singaporean Hokkien Fried Mee'    │ '32 - 1 kg pkgs.'      │ 'Leka Trading'                           │ 'Singapore'   │ 26             │
+│ 40      │ 43         │ 'Ipoh Coffee'                      │ '16 - 500 g tins'      │ 'Leka Trading'                           │ 'Singapore'   │ 17             │
+│ 41      │ 44         │ 'Gula Malacca'                     │ '20 - 2 kg bags'       │ 'Leka Trading'                           │ 'Singapore'   │ 27             │
+│ 42      │ 45         │ 'Rogede sild'                      │ '1k pkg.'              │ 'Lyngbysild'                             │ 'Denmark'     │ 5              │
+│ 43      │ 46         │ 'Spegesild'                        │ '4 - 450 g glasses'    │ 'Lyngbysild'                             │ 'Denmark'     │ 95             │
+│ 44      │ 47         │ 'Zaanse koeken'                    │ '10 - 4 oz boxes'      │ 'Zaanse Snoepfabriek'                    │ 'Netherlands' │ 36             │
+│ 45      │ 48         │ 'Chocolade'                        │ '10 pkgs.'             │ 'Zaanse Snoepfabriek'                    │ 'Netherlands' │ 15             │
+│ 46      │ 49         │ 'Maxilaku'                         │ '24 - 50 g pkgs.'      │ 'Karkki Oy'                              │ 'Finland'     │ 10             │
+│ 47      │ 50         │ 'Valkoinen suklaa'                 │ '12 - 100 g bars'      │ 'Karkki Oy'                              │ 'Finland'     │ 65             │
+│ 48      │ 51         │ 'Manjimup Dried Apples'            │ '50 - 300 g pkgs.'     │ "G'day, Mate"                            │ 'Australia'   │ 20             │
+│ 49      │ 52         │ 'Filo Mix'                         │ '16 - 2 kg boxes'      │ "G'day, Mate"                            │ 'Australia'   │ 38             │
+│ 50      │ 53         │ 'Perth Pasties'                    │ '48 pieces'            │ "G'day, Mate"                            │ 'Australia'   │ 0              │
+│ 51      │ 54         │ 'Tourtière'                        │ '16 pies'              │ 'Ma Maison'                              │ 'Canada'      │ 21             │
+│ 52      │ 55         │ 'Pâté chinois'                     │ '24 boxes x 2 pies'    │ 'Ma Maison'                              │ 'Canada'      │ 115            │
+│ 53      │ 56         │ 'Gnocchi di nonna Alice'           │ '24 - 250 g pkgs.'     │ 'Pasta Buttini s.r.l.'                   │ 'Italy'       │ 21             │
+│ 54      │ 57         │ 'Ravioli Angelo'                   │ '24 - 250 g pkgs.'     │ 'Pasta Buttini s.r.l.'                   │ 'Italy'       │ 36             │
+│ 55      │ 58         │ 'Escargots de Bourgogne'           │ '24 pieces'            │ 'Escargots Nouveaux'                     │ 'France'      │ 62             │
+│ 56      │ 59         │ 'Raclette Courdavault'             │ '5 kg pkg.'            │ 'Gai pâturage'                           │ 'France'      │ 79             │
+│ 57      │ 60         │ 'Camembert Pierrot'                │ '15 - 300 g rounds'    │ 'Gai pâturage'                           │ 'France'      │ 19             │
+│ 58      │ 61         │ "Sirop d'érable"                   │ '24 - 500 ml bottles'  │ "Forêts d'érables"                       │ 'Canada'      │ 113            │
+│ 59      │ 62         │ 'Tarte au sucre'                   │ '48 pies'              │ "Forêts d'érables"                       │ 'Canada'      │ 17             │
+│ 60      │ 63         │ 'Vegie-spread'                     │ '15 - 625 g jars'      │ 'Pavlova, Ltd.'                          │ 'Australia'   │ 24             │
+│ 61      │ 64         │ 'Wimmers gute Semmelknödel'        │ '20 bags x 4 pieces'   │ 'Plutzer Lebensmittelgroßmärkte AG'      │ 'Germany'     │ 22             │
+│ 62      │ 65         │ 'Louisiana Fiery Hot Pepper Sauce' │ '32 - 8 oz bottles'    │ 'New Orleans Cajun Delights'             │ 'USA'         │ 76             │
+│ 63      │ 66         │ 'Louisiana Hot Spiced Okra'        │ '24 - 8 oz jars'       │ 'New Orleans Cajun Delights'             │ 'USA'         │ 4              │
+│ 64      │ 67         │ 'Laughing Lumberjack Lager'        │ '24 - 12 oz bottles'   │ 'Bigfoot Breweries'                      │ 'USA'         │ 52             │
+│ 65      │ 68         │ 'Scottish Longbreads'              │ '10 boxes x 8 pieces'  │ 'Specialty Biscuits, Ltd.'               │ 'UK'          │ 6              │
+│ 66      │ 69         │ 'Gudbrandsdalsost'                 │ '10 kg pkg.'           │ 'Norske Meierier'                        │ 'Norway'      │ 26             │
+│ 67      │ 70         │ 'Outback Lager'                    │ '24 - 355 ml bottles'  │ 'Pavlova, Ltd.'                          │ 'Australia'   │ 15             │
+│ 68      │ 71         │ 'Flotemysost'                      │ '10 - 500 g pkgs.'     │ 'Norske Meierier'                        │ 'Norway'      │ 26             │
+│ 69      │ 72         │ 'Mozzarella di Giovanni'           │ '24 - 200 g pkgs.'     │ 'Formaggi Fortini s.r.l.'                │ 'Italy'       │ 14             │
+│ 70      │ 73         │ 'Röd Kaviar'                       │ '24 - 150 g jars'      │ 'Svensk Sjöföda AB'                      │ 'Sweden'      │ 101            │
+│ 71      │ 74         │ 'Longlife Tofu'                    │ '5 kg pkg.'            │ 'Tokyo Traders'                          │ 'Japan'       │ 4              │
+│ 72      │ 75         │ 'Rhönbräu Klosterbier'             │ '24 - 0.5 l bottles'   │ 'Plutzer Lebensmittelgroßmärkte AG'      │ 'Germany'     │ 125            │
+│ 73      │ 76         │ 'Lakkalikööri'                     │ '500 ml'               │ 'Karkki Oy'                              │ 'Finland'     │ 57             │
+│ 74      │ 77         │ 'Original Frankfurter grüne Soße'  │ '12 boxes'             │ 'Plutzer Lebensmittelgroßmärkte AG'      │ 'Germany'     │ 32             │
+│ 75      │ 1          │ 'Chai'                             │ '10 boxes x 30 bags'   │ 'Specialty Biscuits, Ltd.'               │ 'UK'          │ 39             │
+│ 76      │ 2          │ 'Chang'                            │ '24 - 12 oz bottles'   │ 'Exotic Liquids'                         │ 'UK'          │ 17             │
+└─────────┴────────────┴────────────────────────────────────┴────────────────────────┴──────────────────────────────────────────┴───────────────┴────────────────┘

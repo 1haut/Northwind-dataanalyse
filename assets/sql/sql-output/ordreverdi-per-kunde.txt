@@ -1,0 +1,106 @@
+SELECT 
+	orders.ship_name,
+	AVG(
+	order_details.unit_price * order_details.quantity * (1 - order_details.discount)
+	)
+	AS total_price
+FROM order_details
+JOIN orders
+ON order_details.order_id = orders.order_id
+GROUP BY orders.ship_name
+ORDER BY total_price DESC;
+
+┌─────────┬──────────────────────────────────────┬────────────────────┐
+│ (index) │ ship_name                            │ average_price      │
+├─────────┼──────────────────────────────────────┼────────────────────┤
+│ 0       │ 'QUICK-Stop'                         │ 1282.294244539463  │
+│ 1       │ 'Simons bistro'                      │ 1121.1398408136617 │
+│ 2       │ 'Ernst Handel'                       │ 1028.186060232132  │
+│ 3       │ 'Hanari Carnes'                      │ 1026.292810889296  │
+│ 4       │ 'Piccolo und mehr'                   │ 1005.6026093466838 │
+│ 5       │ 'Hungry Owl All-Night Grocers'       │ 908.7255469362816  │
+│ 6       │ 'Mère Paillarde'                     │ 902.2559423787006  │
+│ 7       │ 'Save-a-lot Markets'                 │ 899.6719787964996  │
+│ 8       │ 'Great Lakes Food Market'            │ 841.2477259512077  │
+│ 9       │ 'Königlich Essen'                    │ 792.522663398421   │
+│ 10      │ 'Folies gourmandes'                  │ 729.1812555789948  │
+│ 11      │ 'Rattlesnake Canyon Grocery'         │ 719.6873356094115  │
+│ 12      │ 'Blondel père et fils'               │ 712.8492338209655  │
+│ 13      │ 'Bólido Comidas preparadas'          │ 705.4750031034151  │
+│ 14      │ 'Eastern Connection'                 │ 702.9064252490089  │
+│ 15      │ 'White Clover Markets'               │ 684.09012250527    │
+│ 16      │ 'Folk och fä HB'                     │ 657.0569442228145  │
+│ 17      │ 'Richter Supermarkt'                 │ 644.7926306773618  │
+│ 18      │ 'Queen Cozinha'                      │ 642.9374401243394  │
+│ 19      │ 'Old World Delicatessen'             │ 632.3942709732801  │
+│ 20      │ 'Seven Seas Imports'                 │ 623.6663478510168  │
+│ 21      │ 'Suprêmes délices'                   │ 617.6610328543187  │
+│ 22      │ 'Bottom-Dollar Markets'              │ 594.3314272083129  │
+│ 23      │ 'Maison Dewey'                       │ 572.7102945244663  │
+│ 24      │ 'Split Rail Beer & Ale'              │ 572.0815036135391  │
+│ 25      │ 'Chop-suey Chinese'                  │ 561.3127297003025  │
+│ 26      │ 'Frankenversand'                     │ 555.3449875831253  │
+│ 27      │ 'France restauration'                │ 528.6933339436849  │
+│ 28      │ 'Tradiçao Hipermercados'             │ 526.974156395339   │
+│ 29      │ 'Vaffeljernet'                       │ 511.09435148410984 │
+│ 30      │ 'HILARION-Abastos'                   │ 505.97253168274426 │
+│ 31      │ 'Princesa Isabel Vinhos'             │ 504.49400110578534 │
+│ 32      │ "Bon app'"                           │ 499.1648286746485  │
+│ 33      │ 'Lehmanns Marktstand'                │ 493.8823065351753  │
+│ 34      │ 'The Big Cheese'                     │ 480.1428576878139  │
+│ 35      │ 'Berglunds snabbköp'                 │ 479.37648905703793 │
+│ 36      │ 'LILA-Supermercado'                  │ 472.8411741456039  │
+│ 37      │ 'LINO-Delicateses'                   │ 470.75899758055374 │
+│ 38      │ 'Ricardo Adocicados'                 │ 461.14074122629785 │
+│ 39      │ 'Morgenstern Gesundkost'             │ 458.3818213722923  │
+│ 40      │ 'Around the Horn'                    │ 446.3549991309394  │
+│ 41      │ 'Gourmet Lanchonetes'                │ 442.84920950312363 │
+│ 42      │ 'Godos Cocina Típica'                │ 440.2446136452601  │
+│ 43      │ 'Ottilies Käseladen'                 │ 430.9034470076448  │
+│ 44      │ 'Wartian Herkku'                     │ 422.937907717675   │
+│ 45      │ 'Antonio Moreno Taquería'            │ 413.17514313765304 │
+│ 46      │ 'Spécialités du monde'               │ 403.8916670481364  │
+│ 47      │ "Alfred's Futterkiste"               │ 384.2777807439367  │
+│ 48      │ 'Comércio Mineiro'                   │ 381.0749990463257  │
+│ 49      │ 'Drachenblut Delikatessen'           │ 376.3209972381592  │
+│ 50      │ 'Tortuga Restaurante'                │ 372.8327597914071  │
+│ 51      │ 'GROSELLA-Restaurante'               │ 372.17499923706055 │
+│ 52      │ 'Die Wandernde Kuh'                  │ 368.7855754988841  │
+│ 53      │ 'Victuailles en stock'               │ 367.2971951058984  │
+│ 54      │ 'Santé Gourmet'                      │ 358.4468759596348  │
+│ 55      │ 'Magazzini Alimentari Riuniti'       │ 341.72452147664416 │
+│ 56      │ 'Toms Spezialitäten'                 │ 341.2957184007551  │
+│ 57      │ 'Hungry Coyote Import Store'         │ 340.35555828942194 │
+│ 58      │ 'Furia Bacalhau e Frutos do Mar'     │ 321.37112505496293 │
+│ 59      │ 'Reggiani Caseifici'                 │ 320.37454404237593 │
+│ 60      │ 'Wellington Importadora'             │ 319.3789458218766  │
+│ 61      │ 'Océano Atlántico Ltda.'             │ 314.5636371265758  │
+│ 62      │ "Let's Stop N Shop"                  │ 307.6472482238263  │
+│ 63      │ 'Lonesome Pine Restaurant'           │ 304.18571390424455 │
+│ 64      │ 'Pericles Comidas clásicas'          │ 303.0142867905753  │
+│ 65      │ "La maison d'Asie"                   │ 300.9096779002297  │
+│ 66      │ 'Que Delícia'                        │ 277.7004141537038  │
+│ 67      │ "B's Beverages"                      │ 276.8136359128085  │
+│ 68      │ 'Alfreds Futterkiste'                │ 271.4999942779541  │
+│ 69      │ 'Island Trading'                     │ 267.2304341274759  │
+│ 70      │ 'Consolidated Holdings'              │ 245.58571270533972 │
+│ 71      │ 'The Cracker Box'                    │ 243.40499925613403 │
+│ 72      │ 'Rancho grande'                      │ 237.00833320617676 │
+│ 73      │ 'Blauer See Delikatessen'            │ 231.4142851148333  │
+│ 74      │ 'Wolski Zajazd'                      │ 220.7468747496605  │
+│ 75      │ 'Familia Arquibaldo'                 │ 216.18683806724457 │
+│ 76      │ 'Wilman Kala'                        │ 185.96176371854895 │
+│ 77      │ "La corne d'abondance"               │ 181.0954555164684  │
+│ 78      │ 'Du monde entier'                    │ 179.54444313049316 │
+│ 79      │ 'Lazy K Kountry Store'               │ 178.49999904632568 │
+│ 80      │ "Trail's Head Gourmet Provisioners"  │ 174.57777659098306 │
+│ 81      │ 'Cactus Comidas para llevar'         │ 164.98181672529742 │
+│ 82      │ 'Franchi S.p.A.'                     │ 154.56999979019164 │
+│ 83      │ 'Vins et alcools Chevalier'          │ 148.00000019073485 │
+│ 84      │ 'Ana Trujillo Emparedados y helados' │ 140.2949990272522  │
+│ 85      │ 'North/South'                        │ 108.16666666666667 │
+│ 86      │ 'Romero y tomillo'                   │ 104.80642989703587 │
+│ 87      │ 'Galería del gastronómo'             │ 104.5874993801117  │
+│ 88      │ 'Laughing Bacchus Wine Cellars'      │ 65.31249904632568  │
+│ 89      │ 'Centro comercial Moctezuma'         │ 50.39999961853027  │
+└─────────┴──────────────────────────────────────┴────────────────────┘

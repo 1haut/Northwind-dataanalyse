@@ -1,0 +1,46 @@
+SELECT 
+	suppliers.supplier_id, 
+	suppliers.company_name,  
+	ROUND(
+	SUM(order_details.unit_price * order_details.quantity * (1 - order_details.discount))
+	) 
+	AS total_sales
+FROM products
+JOIN suppliers ON products.supplier_id = suppliers.supplier_id
+JOIN order_details ON products.product_id = order_details.product_id
+GROUP BY suppliers.supplier_id
+ORDER BY total_sales DESC;
+
+┌─────────┬─────────────┬──────────────────────────────────────────┬─────────────┐
+│ (index) │ supplier_id │ company_name                             │ total_sales │
+├─────────┼─────────────┼──────────────────────────────────────────┼─────────────┤
+│ 0       │ 18          │ 'Aux joyeux ecclésiastiques'             │ 153691      │
+│ 1       │ 12          │ 'Plutzer Lebensmittelgroßmärkte AG'      │ 145372      │
+│ 2       │ 28          │ 'Gai pâturage'                           │ 117981      │
+│ 3       │ 7           │ 'Pavlova, Ltd.'                          │ 106460      │
+│ 4       │ 24          │ "G'day, Mate"                            │ 65627       │
+│ 5       │ 29          │ "Forêts d'érables"                       │ 61588       │
+│ 6       │ 8           │ 'Specialty Biscuits, Ltd.'               │ 59032       │
+│ 7       │ 26          │ 'Pasta Buttini s.r.l.'                   │ 50255       │
+│ 8       │ 14          │ 'Formaggi Fortini s.r.l.'                │ 48225       │
+│ 9       │ 15          │ 'Norske Meierier'                        │ 43142       │
+│ 10      │ 20          │ 'Leka Trading'                           │ 42018       │
+│ 11      │ 3           │ "Grandma Kelly's Homestead"              │ 41953       │
+│ 12      │ 11          │ 'Heli Süßwaren GmbH & Co. KG'            │ 38653       │
+│ 13      │ 2           │ 'New Orleans Cajun Delights'             │ 31168       │
+│ 14      │ 4           │ 'Tokyo Traders'                          │ 30526       │
+│ 15      │ 23          │ 'Karkki Oy'                              │ 28443       │
+│ 16      │ 19          │ 'New England Seafood Cannery'            │ 26591       │
+│ 17      │ 5           │ "Cooperativa de Quesos 'Las Cabras'"     │ 25159       │
+│ 18      │ 16          │ 'Bigfoot Breweries'                      │ 22391       │
+│ 19      │ 25          │ 'Ma Maison'                              │ 22155       │
+│ 20      │ 17          │ 'Svensk Sjöföda AB'                      │ 20144       │
+│ 21      │ 1           │ 'Exotic Liquids'                         │ 19400       │
+│ 22      │ 6           │ "Mayumi's"                               │ 14737       │
+│ 23      │ 13          │ 'Nord-Ost-Fisch Handelsgesellschaft mbH' │ 13424       │
+│ 24      │ 9           │ 'PB Knäckebröd AB'                       │ 11724       │
+│ 25      │ 21          │ 'Lyngbysild'                             │ 10221       │
+│ 26      │ 27          │ 'Escargots Nouveaux'                     │ 5882        │
+│ 27      │ 22          │ 'Zaanse Snoepfabriek'                    │ 5327        │
+│ 28      │ 10          │ 'Refrescos Americanas LTDA'              │ 4504        │
+└─────────┴─────────────┴──────────────────────────────────────────┴─────────────┘

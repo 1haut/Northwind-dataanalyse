@@ -1,0 +1,101 @@
+-- kunder solgt mest --
+SELECT orders.ship_name, SUM(order_details.quantity) AS quant
+FROM order_details
+JOIN orders ON order_details.order_id = orders.order_id
+GROUP BY orders.ship_name
+ORDER BY quant DESC;
+
+┌─────────┬──────────────────────────────────────┬────────┐
+│ (index) │ ship_name                            │ quant  │
+├─────────┼──────────────────────────────────────┼────────┤
+│ 0       │ 'Save-a-lot Markets'                 │ '4958' │
+│ 1       │ 'Ernst Handel'                       │ '4543' │
+│ 2       │ 'QUICK-Stop'                         │ '3961' │
+│ 3       │ 'Hungry Owl All-Night Grocers'       │ '1684' │
+│ 4       │ 'Frankenversand'                     │ '1525' │
+│ 5       │ 'Rattlesnake Canyon Grocery'         │ '1383' │
+│ 6       │ 'Folk och fä HB'                     │ '1234' │
+│ 7       │ 'HILARION-Abastos'                   │ '1096' │
+│ 8       │ 'Suprêmes délices'                   │ '1072' │
+│ 9       │ 'White Clover Markets'               │ '1063' │
+│ 10      │ 'Queen Cozinha'                      │ '1031' │
+│ 11      │ 'Berglunds snabbköp'                 │ '1001' │
+│ 12      │ "Bon app'"                           │ '980'  │
+│ 13      │ 'LINO-Delicateses'                   │ '970'  │
+│ 14      │ 'Mère Paillarde'                     │ '966'  │
+│ 15      │ 'Bottom-Dollar Markets'              │ '956'  │
+│ 16      │ 'Königlich Essen'                    │ '903'  │
+│ 17      │ 'Hanari Carnes'                      │ '839'  │
+│ 18      │ 'LILA-Supermercado'                  │ '836'  │
+│ 19      │ 'Seven Seas Imports'                 │ '818'  │
+│ 20      │ 'Richter Supermarkt'                 │ '810'  │
+│ 21      │ 'Lehmanns Marktstand'                │ '794'  │
+│ 22      │ 'Vaffeljernet'                       │ '792'  │
+│ 23      │ 'Wartian Herkku'                     │ '737'  │
+│ 24      │ 'Blondel père et fils'               │ '666'  │
+│ 25      │ 'Ricardo Adocicados'                 │ '660'  │
+│ 26      │ 'Around the Horn'                    │ '650'  │
+│ 27      │ 'Ottilies Käseladen'                 │ '639'  │
+│ 28      │ 'Piccolo und mehr'                   │ '624'  │
+│ 29      │ 'Old World Delicatessen'             │ '603'  │
+│ 30      │ 'Eastern Connection'                 │ '569'  │
+│ 31      │ 'Die Wandernde Kuh'                  │ '492'  │
+│ 32      │ 'Chop-suey Chinese'                  │ '465'  │
+│ 33      │ "La maison d'Asie"                   │ '442'  │
+│ 34      │ 'Victuailles en stock'               │ '434'  │
+│ 35      │ 'Magazzini Alimentari Riuniti'       │ '433'  │
+│ 36      │ 'Godos Cocina Típica'                │ '395'  │
+│ 37      │ 'Que Delícia'                        │ '394'  │
+│ 38      │ 'Tortuga Restaurante'                │ '384'  │
+│ 39      │ 'Simons bistro'                      │ '378'  │
+│ 40      │ 'Antonio Moreno Taquería'            │ '359'  │
+│ 41      │ 'Familia Arquibaldo'                 │ '357'  │
+│ 42      │ 'Folies gourmandes'                  │ '354'  │
+│ 43      │ 'Furia Bacalhau e Frutos do Mar'     │ '349'  │
+│ 44      │ 'Great Lakes Food Market'            │ '345'  │
+│ 45      │ 'Reggiani Caseifici'                 │ '335'  │
+│ 46      │ 'Split Rail Beer & Ale'              │ '327'  │
+│ 47      │ 'Maison Dewey'                       │ '320'  │
+│ 48      │ 'Gourmet Lanchonetes'                │ '315'  │
+│ 49      │ 'Island Trading'                     │ '295'  │
+│ 50      │ "B's Beverages"                      │ '293'  │
+│ 51      │ 'Wellington Importadora'             │ '267'  │
+│ 52      │ 'Toms Spezialitäten'                 │ '253'  │
+│ 53      │ 'Tradiçao Hipermercados'             │ '251'  │
+│ 54      │ 'Pericles Comidas clásicas'          │ '208'  │
+│ 55      │ 'Wolski Zajazd'                      │ '205'  │
+│ 56      │ 'Bólido Comidas preparadas'          │ '190'  │
+│ 57      │ 'Princesa Isabel Vinhos'             │ '184'  │
+│ 58      │ "Let's Stop N Shop"                  │ '181'  │
+│ 59      │ 'Morgenstern Gesundkost'             │ '172'  │
+│ 60      │ 'Santé Gourmet'                      │ '161'  │
+│ 61      │ 'Drachenblut Delikatessen'           │ '160'  │
+│ 62      │ 'Wilman Kala'                        │ '148'  │
+│ 63      │ 'Blauer See Delikatessen'            │ '140'  │
+│ 64      │ "Alfred's Futterkiste"               │ '136'  │
+│ 65      │ 'Lonesome Pine Restaurant'           │ '134'  │
+│ 66      │ 'Comércio Mineiro'                   │ '133'  │
+│ 67      │ 'Océano Atlántico Ltda.'             │ '132'  │
+│ 68      │ 'Hungry Coyote Import Store'         │ '122'  │
+│ 69      │ 'Cactus Comidas para llevar'         │ '115'  │
+│ 70      │ 'Vins et alcools Chevalier'          │ '98'   │
+│ 71      │ 'Rancho grande'                      │ '92'   │
+│ 72      │ 'Romero y tomillo'                   │ '91'   │
+│ 73      │ "Trail's Head Gourmet Provisioners"  │ '89'   │
+│ 74      │ 'Consolidated Holdings'              │ '87'   │
+│ 75      │ "La corne d'abondance"               │ '83'   │
+│ 76      │ 'Du monde entier'                    │ '80'   │
+│ 77      │ 'France restauration'                │ '69'   │
+│ 78      │ 'Ana Trujillo Emparedados y helados' │ '63'   │
+│ 79      │ 'Laughing Bacchus Wine Cellars'      │ '62'   │
+│ 80      │ 'The Cracker Box'                    │ '59'   │
+│ 81      │ 'Franchi S.p.A.'                     │ '54'   │
+│ 82      │ 'Spécialités du monde'               │ '48'   │
+│ 83      │ 'The Big Cheese'                     │ '46'   │
+│ 84      │ 'Galería del gastronómo'             │ '42'   │
+│ 85      │ 'Alfreds Futterkiste'                │ '38'   │
+│ 86      │ 'GROSELLA-Restaurante'               │ '34'   │
+│ 87      │ 'North/South'                        │ '30'   │
+│ 88      │ 'Lazy K Kountry Store'               │ '20'   │
+│ 89      │ 'Centro comercial Moctezuma'         │ '11'   │
+└─────────┴──────────────────────────────────────┴────────┘
