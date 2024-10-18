@@ -16,14 +16,18 @@ db.connect();
 app.use(express.static("public"));
 
 let output = [];
-
+const files = fs.readdirSync('assets/sql/sql-queries');
+console.log(files)
 
 const questions = [
     {
         type: 'input',
         name: 'operation',
-        message: 'Insert SQL-query here: ',
+        message: 'Insert SQL-query here: '
     },
+]
+
+const presentationQ = [
     {
         type: 'list',
         name: 'format',
@@ -45,13 +49,20 @@ inquirer.
     prompt(questions).
     then(
         (ans) => {
-            if (ans.operation) {
-                db.query(ans.operation, (err, res) => {
+            if (ans.sql_file) {
+                let sqlQuery = fs.readFileSync(ans.sql_file).toString();
+
+                db.query(sqlQuery, (err, res) => {
                     if (err) {
                         console.log("Error executing query", err.stack)
                     } else {
                         output = res.rows
-                        setPresentation(ans.format);
+                        if (res.command === "SELECT") {
+                            inquirer.prompt(presentationQ).then((ans2) => {
+                                setPresentation(ans2.format);
+                            })
+                        };
+                        console.log("Your operation was successful.")
                     }
                 })
             } else {
