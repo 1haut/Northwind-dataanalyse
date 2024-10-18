@@ -47,6 +47,9 @@ async function updateInfo(tableName) {
     }
 }
 
+function checkNumber(number) {
+    if (number[0])
+}
 // Inquirer questions //
 
 const baseQuestions = [
@@ -91,18 +94,14 @@ async function queryCreate(table, columns, values) {
         const businessName = arrValues[0]
         newId = businessName.replace(/\s+/g, '').slice(0, 5).toUpperCase()
     } else {
-        const result = await db.query("SELECT MAX(product_id) FROM products")
+        const result = await db.query(`SELECT MAX(${idColumn}) FROM ${table}`)
         newId = result.rows[0].max + 1
     }
 
     arrValues = newId + ', ' + arrValues
     arrColumns = idColumn + ', ' + arrColumns
-    arrValues = arrValues.split(',')
 
-    console.log(arrValues + '\n' + arrColumns)
-    console.log(typeof (arrValues))
-
-    db.query(`INSERT INTO ${table}(${arrColumns}) VALUES ($1)`, [arrValues],
+    db.query(`INSERT INTO ${table}(${arrColumns}) VALUES (${arrValues})`,
         (err) => {
             if (err) {
                 console.log(err.stack)
@@ -195,7 +194,7 @@ inquirer
                             }
                             return true
                         },
-                        waitUserInput: true
+                        waitUserInput: true,
                     }
                 ]
                 )
