@@ -13,6 +13,7 @@ const db = new pg.Client({
 });
 
 db.connect();
+app.use(express.static("public"));
 
 let output = [];
 let cols = [];

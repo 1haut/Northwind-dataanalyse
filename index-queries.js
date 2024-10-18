@@ -13,9 +13,11 @@ const db = new pg.Client({
 });
 
 db.connect();
+app.use(express.static("public"));
 
 let output = [];
-const files = fs.readdirSync('../fase2');
+const files = fs.readdirSync('assets/sql/sql-queries');
+console.log(files)
 
 const questions = [
     {
@@ -24,7 +26,7 @@ const questions = [
         message: 'What file do you want to open?',
         choices: files,
         filter(val) {
-            return '../fase2/' + val
+            return 'assets/sql/sql-queries/' + val
         }
     },
     {
