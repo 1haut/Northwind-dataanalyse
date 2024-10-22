@@ -1,7 +1,6 @@
 import express from "express";
 import inquirer from "inquirer";
 import pg from "pg";
-import fs from "fs";
 
 const app = express();
 const db = new pg.Client({
@@ -16,14 +15,12 @@ db.connect();
 app.use(express.static("public"));
 
 let output = [];
-const files = fs.readdirSync('assets/sql/sql-queries');
-console.log(files)
 
 const questions = [
     {
         type: 'input',
         name: 'operation',
-        message: 'Insert SQL-query here: '
+        message: 'Insert valid SQL-query here: '
     },
 ]
 
@@ -49,24 +46,52 @@ inquirer.
     prompt(questions).
     then(
         (ans) => {
-            if (ans.sql_file) {
-                let sqlQuery = fs.readFileSync(ans.sql_file).toString();
-
-                db.query(sqlQuery, (err, res) => {
-                    if (err) {
-                        console.log("Error executing query", err.stack)
-                    } else {
-                        output = res.rows
-                        if (res.command === "SELECT") {
-                            inquirer.prompt(presentationQ).then((ans2) => {
-                                setPresentation(ans2.format);
-                            })
-                        };
-                        console.log("Your operation was successful.")
+            // db.query(ans.operation, (err, res) => {
+            //     if (err) {
+            //         console.log("Error executing query", err.stack)
+            //     } else {
+            //         output = res.rows
+            //         if (res.rowCount && res.rowCount === 0) {
+            //             console.log("No data was changed.")
+            //         }
+            //         else if (res.command === "SELECT") {
+            //             inquirer.prompt(presentationQ).then((ans2) => {
+            //                 setPresentation(ans2.format);
+            //             })
+            //         };
+            //         console.log("Your operation was successful.")
+            //     }
+            // })
+            // try {
+            //     db.query(ans.operation, res => {
+            //         output = res.rows;
+            //         if (res.rowCount && res.rowCount === 0) {
+            //             console.log("No data was changed.");
+            //         }
+            //         else if (res.command === "SELECT") {
+            //             inquirer.prompt(presentationQ).then((ans2) => {
+            //                 setPresentation(ans2.format);
+            //             })
+            //         }
+            //     })
+            // } catch (err) {
+            //     console.log("Error executing query", err.stack)
+            // }
+            db.query(ans.operation, (err, res) => {
+                if (err) {
+                    console.log(err.stack)
+                } else {
+                    output = res.rows
+                    if (res.rowCount === 0) {
+                        console.log("No data was changed.");
                     }
-                })
-            } else {
-                console.log(ans);
-            }
+                    else if (res.command === "SELECT") {
+                        inquirer.prompt(presentationQ).then((ans2) => {
+                            setPresentation(ans2.format);
+                        })
+                    }
+                    console.log(res)
+                }
+            })
         })
 

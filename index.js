@@ -47,9 +47,6 @@ async function updateInfo(tableName) {
     }
 }
 
-function checkNumber(number) {
-    if (number[0])
-}
 // Inquirer questions //
 
 const baseQuestions = [

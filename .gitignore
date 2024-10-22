@@ -2,3 +2,5 @@ ekstra/
 test.js
 public/
 views/index.html
+router.js
+d-index.js
