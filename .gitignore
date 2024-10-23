@@ -1,6 +1,5 @@
 ekstra/
 test.js
-public/
-views/index.html
 router.js
 d-index.js
+views/index-storage.html

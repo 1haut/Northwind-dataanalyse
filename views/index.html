@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Northwind Dataanalyse</title>
+    <link rel="icon" type="image/x-icon"
+        href="https://static-00.iconduck.com/assets.00/m-letter-icon-2048x2048-l0s3l0js.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../public/styles/style.css">
+
+</head>
+
+<body>
+    <main id="main">
+        <div class="pagetitle text-center pt-2">
+            <h1>Northwind Company Overview</h1>
+
+        </div><!-- End Page Title -->
+
+        <p class="text-center under-title"> This section presents a comprehensive overview of Northwind's key
+            statistics, data
+            analytics, and relational data. We offer both internal metrics and external market comparisons, covering the
+            period from July 1996 to May 1998. Our goal is to provide in-depth insights into the company's operations
+            and financial performance during this timeframe. Through detailed analysis, we aim to offer a clear picture
+            of Northwind's business health, market position, and operational efficiency.</p>
+
+        <section class="section charts">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"># of orders by costumer</h5>
+
+                            <!-- Bar Chart -->
+                            <canvas id="barChartOrders"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#barChartOrders'), {
+                                        type: 'bar',
+                                        data: {
+                                            labels: ['Save-a-lot Markets', 'Ernst Handel', 'QUICK-Stop', 'Hungry Owl All-Night Grocers', 'Frankenversand', 'Rattlesnake Canyon Grocery', 'Folk och fä HB', 'HILARION-Abastos', 'Suprêmes délices', 'White Clover Markets'],
+                                            datasets: [{
+                                                label: 'Quantity',
+                                                data: [4958, 4543, 3961, 1684, 1525, 1383, 1234, 1096, 1072, 1063],
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(255, 159, 64, 0.2)',
+                                                    'rgba(255, 205, 86, 0.2)',
+                                                    'rgba(75, 192, 192, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)'
+                                                ],
+                                                borderColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(255, 159, 64)',
+                                                    'rgb(255, 205, 86)',
+                                                    'rgb(75, 192, 192)',
+                                                    'rgb(54, 162, 235)',
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- End Bar CHart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Product Demand for "Geitost"</h5>
+
+                            <!-- Line Chart -->
+                            <canvas id="lineChartDemand"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#lineChartDemand'), {
+                                        type: 'line',
+                                        data: {
+                                            labels: ['1996-09', '1996-10', '1996-11', '1996-12', '1997-01', '1997-02', '1997-03', '1997-04', '1997-05', '1997-06', '1997-07', '1997-08', '1997-10', '1997-11', '1997-12', '1998-01', '1998-02', '1998-03', '1998-04', '1998-05'],
+                                            datasets: [{
+                                                label: 'Number of Sales',
+                                                data: [2, 2, 0, 1, 0, 1, 3, 1, 1, 1, 3, 2, 1, 1, 3, 2, 1, 1, 3, 0, 0, 0, 3, 2, 2, 3, 0],
+
+                                                fill: {
+                                                    target: 'origin',
+                                                    above: 'rgb(165, 223, 223)'
+                                                },
+                                                borderColor: 'rgb(75, 192, 192)',
+                                                tension: 0.2
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- End Line CHart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Line Chart</h5>
+
+                            <!-- Line Chart -->
+                            <canvas id="lineChart"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#lineChart'), {
+                                        type: 'line',
+                                        data: {
+                                            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                                            datasets: [{
+                                                label: 'Line Chart',
+                                                data: [65, 59, 80, 81, 56, 55, 40],
+                                                fill: false,
+                                                borderColor: 'rgb(75, 192, 192)',
+                                                tension: 0.1
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true,
+                                                    stepSize: 1
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- End Line CHart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Bar Chart</h5>
+
+                            <!-- Bar Chart -->
+                            <canvas id="barChart"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#barChart'), {
+                                        type: 'bar',
+                                        data: {
+                                            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                                            datasets: [{
+                                                label: 'Stolper',
+                                                data: [65, 59, 80, 81, 56, 55, 40],
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(255, 159, 64, 0.2)',
+                                                    'rgba(255, 205, 86, 0.2)',
+                                                    'rgba(75, 192, 192, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)',
+                                                    'rgba(153, 102, 255, 0.2)',
+                                                    'rgba(201, 203, 207, 0.2)'
+                                                ],
+                                                borderColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(255, 159, 64)',
+                                                    'rgb(255, 205, 86)',
+                                                    'rgb(75, 192, 192)',
+                                                    'rgb(54, 162, 235)',
+                                                    'rgb(153, 102, 255)',
+                                                    'rgb(201, 203, 207)'
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- End Bar CHart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Pie Chart</h5>
+
+                            <!-- Pie Chart -->
+                            <canvas id="pieChart"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 400px; width: 719px;"
+                                width="719" height="400"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#pieChart'), {
+                                        type: 'pie',
+                                        data: {
+                                            labels: [
+                                                'Red',
+                                                'Blue',
+                                                'Yellow'
+                                            ],
+                                            datasets: [{
+                                                label: 'My First Dataset',
+                                                data: [300, 50, 100],
+                                                backgroundColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(54, 162, 235)',
+                                                    'rgb(255, 205, 86)'
+                                                ],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- End Pie CHart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Doughnut Chart</h5>
+
+                            <!-- Doughnut Chart -->
+                            <canvas id="doughnutChart"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 400px; width: 719px;"
+                                width="719" height="400"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#doughnutChart'), {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: [
+                                                'Red',
+                                                'Blue',
+                                                'Yellow'
+                                            ],
+                                            datasets: [{
+                                                label: 'My First Dataset',
+                                                data: [300, 50, 100],
+                                                backgroundColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(54, 162, 235)',
+                                                    'rgb(255, 205, 86)'
+                                                ],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- End Doughnut CHart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Radar Chart</h5>
+
+                            <!-- Radar Chart -->
+                            <canvas id="radarChart"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 400px; width: 719px;"
+                                width="719" height="400"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#radarChart'), {
+                                        type: 'radar',
+                                        data: {
+                                            labels: [
+                                                'Eating',
+                                                'Drinking',
+                                                'Sleeping',
+                                                'Designing',
+                                                'Coding',
+                                                'Cycling',
+                                                'Running'
+                                            ],
+                                            datasets: [{
+                                                label: 'First Dataset',
+                                                data: [65, 59, 90, 81, 56, 55, 40],
+                                                fill: true,
+                                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                                borderColor: 'rgb(255, 99, 132)',
+                                                pointBackgroundColor: 'rgb(255, 99, 132)',
+                                                pointBorderColor: '#fff',
+                                                pointHoverBackgroundColor: '#fff',
+                                                pointHoverBorderColor: 'rgb(255, 99, 132)'
+                                            }, {
+                                                label: 'Second Dataset',
+                                                data: [28, 48, 40, 19, 96, 27, 100],
+                                                fill: true,
+                                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                                borderColor: 'rgb(54, 162, 235)',
+                                                pointBackgroundColor: 'rgb(54, 162, 235)',
+                                                pointBorderColor: '#fff',
+                                                pointHoverBackgroundColor: '#fff',
+                                                pointHoverBorderColor: 'rgb(54, 162, 235)'
+                                            }]
+                                        },
+                                        options: {
+                                            elements: {
+                                                line: {
+                                                    borderWidth: 3
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- End Radar CHart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Polar Area Chart</h5>
+
+                            <!-- Polar Area Chart -->
+                            <canvas id="polarAreaChart"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 400px; width: 719px;"
+                                width="719" height="400"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#polarAreaChart'), {
+                                        type: 'polarArea',
+                                        data: {
+                                            labels: [
+                                                'Red',
+                                                'Green',
+                                                'Yellow',
+                                                'Grey',
+                                                'Blue'
+                                            ],
+                                            datasets: [{
+                                                label: 'My First Dataset',
+                                                data: [11, 16, 7, 3, 14],
+                                                backgroundColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(75, 192, 192)',
+                                                    'rgb(255, 205, 86)',
+                                                    'rgb(201, 203, 207)',
+                                                    'rgb(54, 162, 235)'
+                                                ]
+                                            }]
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- End Polar Area Chart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Stacked Bar Chart</h5>
+
+                            <!-- Stacked Bar Chart -->
+                            <canvas id="stakedBarChart"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#stakedBarChart'), {
+                                        type: 'bar',
+                                        data: {
+                                            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                                            datasets: [{
+                                                label: 'Dataset 1',
+                                                data: [-75, -15, 18, 48, 74],
+                                                backgroundColor: 'rgb(255, 99, 132)',
+                                            },
+                                            {
+                                                label: 'Dataset 2',
+                                                data: [-11, -1, 12, 62, 95],
+                                                backgroundColor: 'rgb(75, 192, 192)',
+                                            },
+                                            {
+                                                label: 'Dataset 3',
+                                                data: [-44, -5, 22, 35, 62],
+                                                backgroundColor: 'rgb(255, 205, 86)',
+                                            },
+                                            ]
+                                        },
+                                        options: {
+                                            plugins: {
+                                                title: {
+                                                    display: true,
+                                                    text: 'Chart.js Bar Chart - Stacked'
+                                                },
+                                            },
+                                            responsive: true,
+                                            scales: {
+                                                x: {
+                                                    stacked: true,
+                                                },
+                                                y: {
+                                                    stacked: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- End Stacked Bar Chart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Bubble Chart</h5>
+
+                            <!-- Bubble Chart -->
+                            <canvas id="bubbleChart"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#bubbleChart'), {
+                                        type: 'bubble',
+                                        data: {
+                                            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                                            datasets: [{
+                                                label: 'Dataset 1',
+                                                data: [{
+                                                    x: 20,
+                                                    y: 30,
+                                                    r: 15
+                                                },
+                                                {
+                                                    x: 40,
+                                                    y: 10,
+                                                    r: 10
+                                                },
+                                                {
+                                                    x: 15,
+                                                    y: 37,
+                                                    r: 12
+                                                },
+                                                {
+                                                    x: 32,
+                                                    y: 42,
+                                                    r: 33
+                                                }
+                                                ],
+                                                borderColor: 'rgb(255, 99, 132)',
+                                                backgroundColor: 'rgba(255, 99, 132, 0.5)'
+                                            },
+                                            {
+                                                label: 'Dataset 2',
+                                                data: [{
+                                                    x: 40,
+                                                    y: 25,
+                                                    r: 22
+                                                },
+                                                {
+                                                    x: 24,
+                                                    y: 47,
+                                                    r: 11
+                                                },
+                                                {
+                                                    x: 65,
+                                                    y: 11,
+                                                    r: 14
+                                                },
+                                                {
+                                                    x: 11,
+                                                    y: 55,
+                                                    r: 8
+                                                }
+                                                ],
+                                                borderColor: 'rgb(75, 192, 192)',
+                                                backgroundColor: 'rgba(75, 192, 192, 0.5)'
+                                            }
+                                            ]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: {
+                                                    position: 'top',
+                                                },
+                                                title: {
+                                                    display: true,
+                                                    text: 'Chart.js Bubble Chart'
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- End Bubble Chart -->
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- <div class="title">
+            <h1>Statistics for Northwind</h1>
+        </div>
+        <section id="charts">
+            <div class="chart bar-chart bestselling"></div>
+            <div class="chart bar-chart employee-sales"></div>
+            <div class="chart bar-chart storage"></div>
+        </section> -->
+    </main>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</html>
