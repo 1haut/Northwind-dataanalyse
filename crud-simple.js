@@ -41,6 +41,8 @@ function setPresentation(choice) {
     }
 }
 
+db.query("ALTER TABLE products ALTER COLUMN discontinued DROP NOT NULL")
+
 
 inquirer.
     prompt(questions).
