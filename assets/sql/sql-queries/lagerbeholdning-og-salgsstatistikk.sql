@@ -4,5 +4,5 @@ FROM order_details
 JOIN products
 ON order_details.product_id = products.product_id
 GROUP BY products.product_id
-ORDER BY product_sales DESC;
+ORDER BY units_in_stock DESC;
 

@@ -3,3 +3,8 @@ test.js
 router.js
 d-index.js
 views/index-storage.html
+queries.js
+index.js
+exttest/
+delete.js
+crud-simple.js

@@ -7,4 +7,5 @@ SELECT products.product_id,
 	products.units_in_stock
 FROM products
 JOIN suppliers
-ON products.supplier_id = suppliers.supplier_id;
+ON products.supplier_id = suppliers.supplier_id
+ORDER BY products.units_in_stock 

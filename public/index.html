@@ -41,7 +41,7 @@
                         <div class="card-body">
                             <h5 class="card-title"># of orders by costumer</h5>
 
-                            <!-- Bar Chart -->
+                            <!-- Number of Orders -->
                             <canvas id="barChartOrders"
                                 style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
                                 width="719" height="359"></canvas>
@@ -81,7 +81,7 @@
                                     });
                                 });
                             </script>
-                            <!-- End Bar CHart -->
+                            <!-- Number of Orders -->
 
                         </div>
                     </div>
@@ -125,6 +125,80 @@
                                 });
                             </script>
                             <!-- End Line CHart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Number of Sales by category</h5>
+
+                            <!-- Pie Chart -->
+                            <canvas id="categoryPie"
+                                style="max-height: 359px; display: block; box-sizing: content-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                async function fetchData() {
+                                    const res = await fetch("/data");
+                                    const data = await res.json();
+                                    return data
+                                }
+
+                                async function render() {
+                                    const data = await fetchData()
+
+                                    const catLabels = data.categoryData.map(item => item.category_name);
+                                    const catData = data.categoryData.map(item => item.sales_per_category);
+
+                                    // document.addEventListener("DOMContentLoaded", () => {
+                                    //     new Chart(document.querySelector('#categoryPie'), {
+                                    //         type: 'pie',
+                                    //         data: {
+                                    //             labels: catLabels,
+                                    //             datasets: [{
+                                    //                 label: 'My First Dataset',
+                                    //                 data: catData,
+                                    //                 backgroundColor: [
+                                    //                     'rgb(255, 99, 132)',
+                                    //                     'rgb(54, 162, 235)',
+                                    //                     'rgb(255, 205, 86)'
+                                    //                 ],
+                                    //                 hoverOffset: 4
+                                    //             }]
+                                    //         }
+                                    //     });
+                                    // });
+
+
+                                    new Chart(document.querySelector('#categoryPie'), {
+                                        type: 'pie',
+                                        data: {
+                                            labels: catLabels,
+                                            datasets: [{
+                                                label: 'Number of sales',
+                                                data: catData,
+                                                backgroundColor: [
+                                                    'rgb(244, 122, 31)',
+                                                    'rgb(253, 187, 47)',
+                                                    'rgb(55, 123, 43)',
+                                                    'rgb(122, 193, 66)',
+                                                    'rgb(0, 124, 195)',
+                                                    'rgb(0, 82, 155)',
+                                                    'rgb(138, 43, 226)',
+                                                    'rgb(227, 38, 54)'
+                                                ],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+
+                                }
+
+                                render();
+                            </script>
+                            <!-- End Pie CHart -->
 
                         </div>
                     </div>
