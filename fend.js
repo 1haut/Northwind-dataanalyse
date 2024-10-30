@@ -119,13 +119,26 @@ app.get("/data", async (req, res) => {
             `)
         const valueBar = resValueBar.rows
 
+        // Product sales
+        const resStorageSales = await db.query(`
+            SELECT products.product_name, COUNT(products.product_id) AS product_sales, products.units_in_stock
+            FROM order_details
+            JOIN products
+            ON order_details.product_id = products.product_id
+            GROUP BY products.product_id
+            ORDER BY units_in_stock DESC;
+            `)
+        const storageSales = resStorageSales.rows
+
         res.json({
             empSalesData: employeeBar,
             categoryData: categoryPie,
             ordersMonthData: salesMonthLine,
             revenueData: revenuePie,
             shippingData: shippingBar,
-            avgValueData: valueBar
+            avgValueData: valueBar,
+            unitsData: unitsBar,
+            saleStorageData: storageSales
         });
     } catch (err) {
         console.error(err.message);
