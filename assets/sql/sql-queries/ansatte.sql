@@ -1,5 +1,7 @@
 -- ansatt solgt mest --
-SELECT employees.title_of_courtesy, employees.first_name, employees.last_name, COUNT(employees.employee_id) AS number_of_sales
+SELECT employees.title_of_courtesy,
+	employees.first_name || ' ' || employees.last_name AS full_name,
+	COUNT(employees.employee_id) AS number_of_sales
 FROM orders
 JOIN employees
 ON orders.employee_id = employees.employee_id

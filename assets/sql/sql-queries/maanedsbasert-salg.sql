@@ -1,5 +1,5 @@
 SELECT 
-	date_part('year', order_date) || '-' || date_part('month', order_date) AS order_month,
+	TO_CHAR(order_date, 'YYYY-MM') AS order_month,
 	COUNT(*)
 FROM orders
 GROUP BY order_month

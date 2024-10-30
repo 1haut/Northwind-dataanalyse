@@ -1,8 +1,8 @@
 SELECT 
 	orders.ship_name,
-	AVG(
+	ROUND(AVG(
 	order_details.unit_price * order_details.quantity * (1 - order_details.discount)
-	)
+	))
 	AS average_price
 FROM order_details
 JOIN orders

@@ -18,11 +18,13 @@ db.connect();
 app.use(express.static('public'));
 
 app.get("/data", async (req, res) => {
-
     try {
         // Best-selling employee
         const resEmployeeBar = await db.query(`
-            SELECT employees.title_of_courtesy, employees.first_name, employees.last_name, COUNT(employees.employee_id) AS number_of_sales
+            -- ansatt solgt mest --
+            SELECT employees.title_of_courtesy,
+                employees.first_name || ' ' || employees.last_name AS full_name,
+                COUNT(employees.employee_id) AS number_of_sales
             FROM orders
             JOIN employees
             ON orders.employee_id = employees.employee_id
@@ -34,11 +36,11 @@ app.get("/data", async (req, res) => {
         // Units in stock
         const resUnitsBar = await db.query(`
             SELECT products.product_id, 
-            products.product_name, 
-            products.quantity_per_unit, 
-            suppliers.company_name AS supplier_name,
-            suppliers.country,
-            products.units_in_stock
+                products.product_name, 
+                products.quantity_per_unit, 
+                suppliers.company_name AS supplier_name,
+                suppliers.country,
+                products.units_in_stock
             FROM products
             JOIN suppliers
             ON products.supplier_id = suppliers.supplier_id
@@ -59,11 +61,11 @@ app.get("/data", async (req, res) => {
         // Revenue per supplier
         const resRevenuePie = await db.query(`
             SELECT 
-            suppliers.supplier_id, 
-            suppliers.company_name,  
-            ROUND(
-            SUM(order_details.unit_price * order_details.quantity * (1 - order_details.discount))
-            ) 
+                suppliers.supplier_id, 
+                suppliers.company_name,  
+                ROUND(
+                SUM(order_details.unit_price * order_details.quantity * (1 - order_details.discount))
+                ) 
             AS total_sales
             FROM products
             JOIN suppliers ON products.supplier_id = suppliers.supplier_id
@@ -73,10 +75,57 @@ app.get("/data", async (req, res) => {
             `)
         const revenuePie = resRevenuePie.rows
 
+        // Time of delivery per shipper
+        const resShippingBar = await db.query(`
+            SELECT
+                shippers.company_name,
+                ROUND(
+                CAST
+                (AVG(DATE_PART('day', orders.shipped_date::TIMESTAMP - orders.order_date::TIMESTAMP)) AS numeric), 1)
+                AS shipping_days
+            FROM orders
+            JOIN shippers
+            ON orders.ship_via = shippers.shipper_id
+            GROUP BY shippers.shipper_id
+            ORDER BY shipping_days;
+            `)
+        const shippingBar = resShippingBar.rows
+
+        // Total amount of orders by month
+        const resSalesMonthLine = await db.query(`
+            SELECT 
+                TO_CHAR(order_date, 'YYYY-MM') AS order_month,
+                COUNT(*)
+            FROM orders
+            GROUP BY order_month
+            ORDER BY order_month
+            `)
+        const salesMonthLine = resSalesMonthLine.rows
+
+        // Average value of order per customer
+        const resValueBar = await db.query(` 
+            SELECT 
+                orders.ship_name,
+                ROUND(AVG(
+                order_details.unit_price * order_details.quantity * (1 - order_details.discount)
+                ))
+                AS average_price
+            FROM order_details
+            JOIN orders
+            ON order_details.order_id = orders.order_id
+            GROUP BY orders.ship_name
+            ORDER BY average_price DESC
+            LIMIT 20;
+            `)
+        const valueBar = resValueBar.rows
 
         res.json({
             empSalesData: employeeBar,
-            categoryData: categoryPie
+            categoryData: categoryPie,
+            ordersMonthData: salesMonthLine,
+            revenueData: revenuePie,
+            shippingData: shippingBar,
+            avgValueData: valueBar
         });
     } catch (err) {
         console.error(err.message);
