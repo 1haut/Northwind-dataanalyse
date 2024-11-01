@@ -1,0 +1,86 @@
+main {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: lightblue;
+    font-family: "Manrope", sans-serif;
+    color: #1E5162;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    padding: 0;
+    margin: 0;
+
+}
+
+.dashboard {
+    margin: 0 5rem
+}
+
+.card-body {
+    padding: 18px 25px;
+}
+
+
+
+.datatable-top {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px
+}
+
+h5.card-title>span {
+    color: #D3D3D3;
+}
+
+
+.charts-container {
+    margin: 20px 0
+}
+
+.sales-card h6 {
+    font-size: 2.25rem;
+    font-weight: bold;
+    color: #1E5162;
+}
+
+.chart-canvas {
+    max-height: 300px;
+    width: 100%;
+}
+
+
+@media only screen and (min-width: 576px) and (max-width: 991px) {
+    .customers-card {
+        margin-top: 20px;
+    }
+}
+
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+.footer {
+    padding: 20px 0;
+    font-size: 14px;
+    transition: all 0.3s;
+    /* border-top: 1px solid #cddfff; */
+}
+
+.footer .copyright {
+    text-align: center;
+    color: #012970;
+}
+
+.footer .credits {
+    padding-top: 5px;
+    text-align: center;
+    font-size: 13px;
+    color: #012970;
+}
