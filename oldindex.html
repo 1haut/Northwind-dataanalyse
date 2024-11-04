@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Northwind Dataanalyse</title>
+    <link rel="icon" type="image/x-icon"
+        href="https://static-00.iconduck.com/assets.00/m-letter-icon-2048x2048-l0s3l0js.png">
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+
+</head>
+
+<body>
+    <main id="main">
+        <div class="pagetitle text-center pt-2">
+            <h1>Northwind Company Overview</h1>
+
+        </div><!-- End Page Title -->
+
+        <p class="text-center under-title"> This section presents a comprehensive overview of Northwind's key
+            statistics, data
+            analytics, and relational data. We offer both internal metrics and external market comparisons, covering the
+            period from July 1996 to May 1998. Our goal is to provide in-depth insights into the company's operations
+            and financial performance during this timeframe. Through detailed analysis, we aim to offer a clear picture
+            of Northwind's business health, market position, and operational efficiency.</p>
+
+        <section class="section charts">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"># of orders by costumer</h5>
+
+                            <!-- Number of Orders -->
+                            <canvas id="barChartOrders"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#barChartOrders'), {
+                                        type: 'bar',
+                                        data: {
+                                            labels: ['Save-a-lot Markets', 'Ernst Handel', 'QUICK-Stop', 'Hungry Owl All-Night Grocers', 'Frankenversand', 'Rattlesnake Canyon Grocery', 'Folk och fä HB', 'HILARION-Abastos', 'Suprêmes délices', 'White Clover Markets'],
+                                            datasets: [{
+                                                label: 'Quantity',
+                                                data: [4958, 4543, 3961, 1684, 1525, 1383, 1234, 1096, 1072, 1063],
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(255, 159, 64, 0.2)',
+                                                    'rgba(255, 205, 86, 0.2)',
+                                                    'rgba(75, 192, 192, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)'
+                                                ],
+                                                borderColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(255, 159, 64)',
+                                                    'rgb(255, 205, 86)',
+                                                    'rgb(75, 192, 192)',
+                                                    'rgb(54, 162, 235)',
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- Number of Orders -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Product Demand for "Geitost"</h5>
+
+                            <!-- Line Chart -->
+                            <canvas id="lineChartDemand"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new Chart(document.querySelector('#lineChartDemand'), {
+                                        type: 'line',
+                                        data: {
+                                            labels: ['1996-09', '1996-10', '1996-11', '1996-12', '1997-01', '1997-02', '1997-03', '1997-04', '1997-05', '1997-06', '1997-07', '1997-08', '1997-10', '1997-11', '1997-12', '1998-01', '1998-02', '1998-03', '1998-04', '1998-05'],
+                                            datasets: [{
+                                                label: 'Number of Sales',
+                                                data: [2, 2, 0, 1, 0, 1, 3, 1, 1, 1, 3, 2, 1, 1, 3, 2, 1, 1, 3, 0, 0, 0, 3, 2, 2, 3, 0],
+
+                                                fill: {
+                                                    target: 'origin',
+                                                    above: 'rgb(165, 223, 223)'
+                                                },
+                                                borderColor: 'rgb(75, 192, 192)',
+                                                tension: 0.2
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- End Line CHart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Number of Sales by category</h5>
+
+                            <!-- Pie Chart -->
+                            <canvas id="categoryPie"
+                                style="max-height: 359px; display: block; box-sizing: content-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                async function fetchData() {
+                                    const res = await fetch("/data");
+                                    const data = await res.json();
+                                    return data
+                                }
+
+                                async function render() {
+                                    const data = await fetchData()
+
+                                    const catLabels = data.categoryData.map(item => item.category_name);
+                                    const catData = data.categoryData.map(item => item.sales_per_category);
+
+                                    new Chart(document.querySelector('#categoryPie'), {
+                                        type: 'pie',
+                                        data: {
+                                            labels: catLabels,
+                                            datasets: [{
+                                                label: 'Number of sales',
+                                                data: catData,
+                                                backgroundColor: [
+                                                    'rgb(244, 122, 31)',
+                                                    'rgb(253, 187, 47)',
+                                                    'rgb(55, 123, 43)',
+                                                    'rgb(122, 193, 66)',
+                                                    'rgb(0, 124, 195)',
+                                                    'rgb(0, 82, 155)',
+                                                    'rgb(138, 43, 226)',
+                                                    'rgb(227, 38, 54)'
+                                                ],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+
+                                }
+
+                                render();
+                            </script>
+                            <!-- End Pie CHart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"># of orders per month</h5>
+
+                            <!-- Line Chart -->
+                            <canvas id="totalOrders"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+
+                                async function fetchData() {
+                                    const res = await fetch("/data");
+                                    const data = await res.json();
+                                    return data
+                                }
+                                async function render() {
+                                    const data = await fetchData();
+
+                                    const newLabels = data.ordersMonthData.map(item => item.order_month);
+
+                                    const newData = data.ordersMonthData.map(item => item.count);
+
+                                    new Chart(document.querySelector('#totalOrders'), {
+                                        type: 'line',
+                                        data: {
+                                            labels: newLabels,
+                                            datasets: [{
+                                                label: '# of Orders',
+                                                data: newData,
+                                                fill: {
+                                                    target: 'origin',
+                                                    above: 'rgb(165, 223, 223)'
+                                                },
+                                                borderColor: 'rgb(75, 192, 192)',
+                                                tension: 0.1
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+
+                                render()
+                            </script>
+                            <!-- End Line CHart -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Best-selling employees</h5>
+
+                            <!-- Number of Orders -->
+                            <canvas id="saleEmployees"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                async function fetchData() {
+                                    const res = await fetch("/data");
+                                    const data = await res.json();
+                                    return data
+                                }
+
+                                async function render() {
+                                    const data = await fetchData()
+
+                                    const newLabels = data.empSalesData.map(item => item.full_name);
+                                    const newData = data.empSalesData.map(item => item.number_of_sales);
+
+                                    new Chart(document.querySelector('#saleEmployees'), {
+                                        type: 'bar',
+                                        data: {
+                                            labels: newLabels,
+                                            datasets: [{
+                                                label: 'Number of Sales',
+                                                data: newData,
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(255, 159, 64, 0.2)',
+                                                    'rgba(255, 205, 86, 0.2)',
+                                                    'rgba(75, 192, 192, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)'
+                                                ],
+                                                borderColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(255, 159, 64)',
+                                                    'rgb(255, 205, 86)',
+                                                    'rgb(75, 192, 192)',
+                                                    'rgb(54, 162, 235)',
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+
+                                render()
+                            </script>
+                            <!-- Number of Orders -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Revenue per supplier</h5>
+
+                            <!-- Pie Chart -->
+                            <canvas id="revenuePie"
+                                style="max-height: 359px; display: block; box-sizing: content-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                async function fetchData() {
+                                    const res = await fetch("/data");
+                                    const data = await res.json();
+                                    return data
+                                }
+
+                                async function render() {
+                                    const data = await fetchData()
+
+                                    const newLabels = data.revenueData.map(item => item.company_name);
+                                    const newData = data.revenueData.map(item => item.total_sales);
+
+                                    new Chart(document.querySelector('#revenuePie'), {
+                                        type: 'pie',
+                                        data: {
+                                            labels: newLabels,
+                                            datasets: [{
+                                                label: 'Revenue (in USD)',
+                                                data: newData,
+                                                backgroundColor: [
+                                                    'rgb(255, 154, 76)',
+                                                    'rgb(255, 206, 108)',
+                                                    'rgb(85, 153, 73)',
+                                                    'rgb(162, 223, 126)',
+                                                    'rgb(51, 148, 218)',
+                                                    'rgb(51, 114, 191)',
+                                                    'rgb(178, 92, 242)',
+                                                    'rgb(242, 88, 106)'
+                                                ],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+
+                                }
+
+                                render();
+                            </script>
+                            <!-- End Pie CHart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Average time of delivery</h5>
+
+                            <!-- Number of Orders -->
+                            <canvas id="shippingTimes"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                async function fetchData() {
+                                    const res = await fetch("/data");
+                                    const data = await res.json();
+                                    return data
+                                }
+
+                                async function render() {
+                                    const data = await fetchData()
+
+                                    const newLabels = data.shippingData.map(item => item.company_name);
+                                    const newData = data.shippingData.map(item => item.shipping_days);
+
+                                    new Chart(document.querySelector('#shippingTimes'), {
+                                        type: 'bar',
+                                        data: {
+                                            labels: newLabels,
+                                            datasets: [{
+                                                label: 'Days',
+                                                data: newData,
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(255, 159, 64, 0.2)',
+                                                    'rgba(255, 205, 86, 0.2)',
+                                                    'rgba(75, 192, 192, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)'
+                                                ],
+                                                borderColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(255, 159, 64)',
+                                                    'rgb(255, 205, 86)',
+                                                    'rgb(75, 192, 192)',
+                                                    'rgb(54, 162, 235)',
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+
+                                render()
+                            </script>
+                            <!-- Number of Orders -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Value per Order by Customer</h5>
+
+                            <!-- Number of Orders -->
+                            <canvas id="avgValue"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                async function fetchData() {
+                                    const res = await fetch("/data");
+                                    const data = await res.json();
+                                    return data
+                                }
+
+                                async function render() {
+                                    const data = await fetchData()
+
+                                    const newLabels = data.avgValueData.map(item => item.ship_name);
+                                    const newData = data.avgValueData.map(item => item.average_price);
+
+                                    new Chart(document.querySelector('#avgValue'), {
+                                        type: 'bar',
+                                        data: {
+                                            labels: newLabels,
+                                            datasets: [{
+                                                label: 'Price (in USD)',
+                                                data: newData,
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(255, 159, 64, 0.2)',
+                                                    'rgba(255, 205, 86, 0.2)',
+                                                    'rgba(75, 192, 192, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)'
+                                                ],
+                                                borderColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(255, 159, 64)',
+                                                    'rgb(255, 205, 86)',
+                                                    'rgb(75, 192, 192)',
+                                                    'rgb(54, 162, 235)',
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+
+                                render()
+                            </script>
+                            <!-- Number of Orders -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Units in stock per product</h5>
+
+                            <!-- Number of Orders -->
+                            <canvas id="storage"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                async function fetchData() {
+                                    const res = await fetch("/data");
+                                    const data = await res.json();
+                                    return data
+                                }
+
+                                async function render() {
+                                    const data = await fetchData()
+
+                                    const newLabels = data.unitsData.map(item => item.product_name);
+                                    const newData = data.unitsData.map(item => item.units_in_stock);
+
+                                    new Chart(document.querySelector('#storage'), {
+                                        type: 'bar',
+                                        data: {
+                                            labels: newLabels,
+                                            datasets: [{
+                                                label: 'Price (in USD)',
+                                                data: newData,
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(255, 159, 64, 0.2)',
+                                                    'rgba(255, 205, 86, 0.2)',
+                                                    'rgba(75, 192, 192, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)'
+                                                ],
+                                                borderColor: [
+                                                    'rgb(255, 99, 132)',
+                                                    'rgb(255, 159, 64)',
+                                                    'rgb(255, 205, 86)',
+                                                    'rgb(75, 192, 192)',
+                                                    'rgb(54, 162, 235)',
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+
+                                render()
+                            </script>
+                            <!-- Number of Orders -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Combined sales and storage</h5>
+
+                            <!-- Number of Orders -->
+                            <canvas id="comboBarLine"
+                                style="max-height: 400px; display: block; box-sizing: border-box; height: 359px; width: 719px;"
+                                width="719" height="359"></canvas>
+                            <script>
+                                async function fetchData() {
+                                    const res = await fetch("/data");
+                                    const data = await res.json();
+                                    return data
+                                }
+
+                                async function render() {
+                                    const data = await fetchData()
+
+                                    const newLabels = data.saleStorageData.map(item => item.product_name);
+                                    const lineData = data.saleStorageData.map(item => item.product_sales);
+                                    const barData = data.saleStorageData.map(item => item.units_in_stock);
+
+                                    const combinedChart = new Chart(document.querySelector('#comboBarLine'), {
+                                        type: 'bar', // Base type can be 'bar' or 'line'
+                                        data: {
+                                            labels: newLabels,
+                                            datasets: [
+                                                {
+                                                    label: 'Units (Bar)',
+                                                    data: barData,
+                                                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                                    borderWidth: 1,
+                                                    type: 'bar' // Define this dataset as bar
+                                                },
+                                                {
+                                                    label: 'Sales (Line)',
+                                                    data: lineData,
+                                                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                                    borderWidth: 2,
+                                                    type: 'line', // Define this dataset as line
+                                                    fill: false
+                                                }
+                                            ]
+                                        },
+                                        options: {
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+
+                                render()
+                            </script>
+                            <!-- Number of Orders -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</html>

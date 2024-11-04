@@ -4,9 +4,9 @@ main {
 }
 
 body {
-    background-color: lightblue;
+    background-color: #add8e6;
     font-family: "Manrope", sans-serif;
-    color: #1E5162;
+    color: #1e5162;
 }
 
 h1,
@@ -45,9 +45,13 @@ h5.card-title>span {
     margin: 20px 0
 }
 
-.sales-card h6 {
+.card-value {
     font-size: 2.25rem;
     font-weight: bold;
+    color: #1E5162;
+}
+
+.card-title {
     color: #1E5162;
 }
 
