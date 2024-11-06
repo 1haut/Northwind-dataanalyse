@@ -2,6 +2,7 @@ import express from "express";
 import { getProducts, getProductsById, addProduct, updateProduct, deleteProduct } from "../controller/prodcontroller.js";
 import { getEmployees, getEmployeesById, addEmployee, updateEmployee, deleteEmployee } from "../controller/empcontroller.js";
 import { addCustomer, updateCustomer, deleteCustomer } from "../controller/custcontroller.js";
+import { addOrder } from "../controller/ordcontroller.js";
 
 const router = express.Router();
 
@@ -23,5 +24,8 @@ router.delete("/employees/:id", deleteEmployee)
 router.post("/customers", addCustomer)
 router.patch("/customers/:id", updateCustomer)
 router.delete("/customers/:id", deleteCustomer)
+
+// Route(s) for orders
+router.post("/customers", addOrder)
 
 export default router;
