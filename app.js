@@ -38,10 +38,14 @@ app.get('/api/line-chart', async (req, res) => {
 app.get('/api/bar-chart', async (req, res) => {
     try {
         const result = await db.query(`
-        SELECT employee_id, COUNT(*) AS order_count
+        SELECT employees.title_of_courtesy,
+            employees.first_name || ' ' || employees.last_name AS full_name,
+            COUNT(employees.employee_id) AS number_of_sales
         FROM orders
-        GROUP BY employee_id
-        ORDER BY employee_id
+        JOIN employees
+        ON orders.employee_id = employees.employee_id
+        GROUP BY employees.employee_id
+        ORDER BY number_of_sales DESC;
         `);
         res.json(result.rows);
     } catch (err) {

@@ -28,7 +28,19 @@ h6 {
     padding: 18px 25px;
 }
 
+.pie-chart .card-title,
+.pie-chart .dropdown {
+    display: inline
+}
 
+
+.pie-chart .dropdown {
+    float: right
+}
+
+.dropdown button {
+    padding: 0.125rem 0.5rem
+}
 
 .datatable-top {
     display: flex;
