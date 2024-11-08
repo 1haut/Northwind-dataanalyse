@@ -95,9 +95,6 @@
                   <h5 class="card-title">Customers <span>| YTD</span></h5>
 
                   <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                    </div>
                     <div class="ps-3">
                       <h6 class="card-value">1244</h6>
                     </div>
@@ -432,7 +429,7 @@
       const barData = data.map(item => item.units_in_stock);
 
       const combinedChart = new Chart(document.querySelector('#comboBarLine'), {
-        type: 'bar', // Base type can be 'bar' or 'line'
+        type: 'bar',
         data: {
           labels: newLabels,
           datasets: [
@@ -442,7 +439,7 @@
               backgroundColor: 'rgba(54, 162, 235, 0.5)',
               borderColor: 'rgba(54, 162, 235, 1)',
               borderWidth: 1,
-              type: 'bar' // Define this dataset as bar
+              type: 'bar'
             },
             {
               label: 'Sales (Line)',
@@ -450,7 +447,7 @@
               backgroundColor: 'rgba(255, 99, 132, 0.5)',
               borderColor: 'rgba(255, 99, 132, 1)',
               borderWidth: 2,
-              type: 'line', // Define this dataset as line
+              type: 'line',
               fill: false
             }
           ]
@@ -495,14 +492,20 @@
         event.stopPropagation();
       });
 
+      function uncheckSelectAll() {
+        selectAllCheck.checked = (checkedCounter === allOptions.length)
+      }
+
 
       allOptions.forEach(option => {
-        option.addEventListener('click', function (this) {
-          if (this.checked) {
-            console.log("+")
+        option.addEventListener('click', function () {
+          if (option.checked) {
+            checkedCounter++
           } else {
-            console.log("-")
+            checkedCounter--
           }
+          uncheckSelectAll()
+          console.log("counter: ", checkedCounter, "options: ", allOptions.length)
         })
       })
 
@@ -518,6 +521,7 @@
           })
           checkedCounter = 0;
         }
+        console.log("counter: ", checkedCounter, "options: ", allOptions.length)
       })
 
     }
@@ -533,8 +537,6 @@
       checkPieChart();
     });
   </script>
-
-
 </body>
 
 </html>
