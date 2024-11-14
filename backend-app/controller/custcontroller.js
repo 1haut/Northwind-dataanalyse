@@ -14,9 +14,18 @@ db.query(`
 
 export const getCustomers = async (req, res) => {
     try {
-        const results = await db.query("SELECT * FROM customers")
+        const results = await db.query(`
+            SELECT  customer_id, 
+                    company_name, 
+                    contact_name, 
+                    phone, 
+                    address, 
+                    city, 
+                    country 
+            FROM customers 
+            WHERE NOT customer_id = 'BLANK'`)
         res.json(results.rows)
-    } catch (error) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).json({ message: 'Server error' });
     }

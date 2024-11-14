@@ -12,18 +12,22 @@ db.query(`
     WHERE NOT EXISTS (SELECT product_id FROM products WHERE product_id = 404)`
 )
 
-async function checkIfExist(id) {
-    const product = products.find(prod => prod.product_id === parseInt(req.params.id))
-    if (!(product)) {
-        return res.json({ error: "No product with this id was found" })
-    }
-}
-
 export const getProducts = async (req, res) => {
     try {
-        const results = await db.query("SELECT * FROM products")
+        const results = await db.query(`
+            SELECT 
+                product_id,
+                product_name,
+                supplier_id,
+                category_id,
+                quantity_per_unit,
+                unit_price,
+                units_in_stock
+            FROM products
+            WHERE NOT product_id = 404
+            `)
         res.json(results.rows)
-    } catch (error) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).json({ message: 'Server error' });
     }
@@ -33,7 +37,7 @@ export const getProductsById = async (req, res) => {
     try {
         const results = await db.query("SELECT * FROM products WHERE product_id = $1", [req.params['id']])
         res.json(results.rows)
-    } catch (error) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).json({ message: 'Server error' });
     }

@@ -6,6 +6,7 @@ Technologies used:
 Database: PostgreSQL
 Programming languages: node.js
 Frameworks: express.js (Backend), Bootstrap (Frontend)
+Libraries: jQuery
 NPM packages: chart.js, pg, inquirer
 
 

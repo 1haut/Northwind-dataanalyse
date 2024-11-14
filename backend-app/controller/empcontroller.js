@@ -14,9 +14,9 @@ db.query(`
 
 export const getEmployees = async (req, res) => {
     try {
-        const results = await db.query("SELECT * FROM employees")
+        const results = await db.query("SELECT employee_id, first_name, last_name, address, city, home_phone FROM employees WHERE NOT employee_id = 404")
         res.json(results.rows)
-    } catch (error) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).json({ message: 'Server error' });
     }
@@ -24,9 +24,9 @@ export const getEmployees = async (req, res) => {
 
 export const getEmployeesById = async (req, res) => {
     try {
-        const results = await db.query("SELECT * FROM employees WHERE employye_id = $1", [req.params['id']])
+        const results = await db.query("SELECT employee_id, first_name, last_name, address, city, home_phone FROM employees WHERE employee_id = $1", [req.params['id']])
         res.json(results.rows)
-    } catch (error) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).json({ message: 'Server error' });
     }
@@ -41,7 +41,7 @@ export const addEmployee = async (req, res) => {
     } catch (err) {
         console.error(err.message);
         res.status(500).json({
-            message: err.message, 
+            message: err.message,
             detail: err.detail
         });
     }
@@ -87,7 +87,7 @@ export const deleteEmployee = async (req, res) => {
     } catch (error) {
         console.error(err.message);
         res.status(500).json({
-            message: err.message, 
+            message: err.message,
             detail: err.detail
         });
     }

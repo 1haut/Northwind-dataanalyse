@@ -1,0 +1,1 @@
+UPDATE employees SET notes = NULL

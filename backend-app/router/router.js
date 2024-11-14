@@ -1,7 +1,7 @@
 import express from "express";
 import { getProducts, getProductsById, addProduct, updateProduct, deleteProduct } from "../controller/prodcontroller.js";
 import { getEmployees, getEmployeesById, addEmployee, updateEmployee, deleteEmployee } from "../controller/empcontroller.js";
-import { addCustomer, updateCustomer, deleteCustomer } from "../controller/custcontroller.js";
+import { getCustomers, addCustomer, updateCustomer, deleteCustomer } from "../controller/custcontroller.js";
 import { addOrder } from "../controller/ordcontroller.js";
 
 const router = express.Router();
@@ -21,6 +21,7 @@ router.patch("/employees/:id", updateEmployee);
 router.delete("/employees/:id", deleteEmployee)
 
 // Routes for customers
+router.get("/customers", getCustomers)
 router.post("/customers", addCustomer)
 router.patch("/customers/:id", updateCustomer)
 router.delete("/customers/:id", deleteCustomer)
