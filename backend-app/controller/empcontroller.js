@@ -35,7 +35,7 @@ export const getEmployeesById = async (req, res) => {
 export const addEmployee = async (req, res) => {
     try {
         const { employee_id, first_name, last_name, address, city, home_phone } = req.body
-        await db.query("INSERT INTO employee(employee_id, first_name, last_name, address, city, home_phone) VALUES ($1, $2, $3, $4, $5, $6)",
+        await db.query("INSERT INTO employees(employee_id, first_name, last_name, address, city, home_phone) VALUES ($1, $2, $3, $4, $5, $6)",
             [employee_id, first_name, last_name, address, city, home_phone])
         res.json("Employee has been added.")
     } catch (err) {

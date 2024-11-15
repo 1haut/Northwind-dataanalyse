@@ -1,23 +1,13 @@
 import express from "express";
 import inquirer from "inquirer";
-import pg from "pg";
+import db from './backend-app/database.js'
 import fs from "fs";
 
 const app = express();
-const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "northwind",
-    password: "dnnasteY",
-    port: 5433,
-});
-
-db.connect();
 app.use(express.static("public"));
 
 let output = [];
 const files = fs.readdirSync('assets/sql/sql-queries');
-console.log(files)
 
 const questions = [
     {

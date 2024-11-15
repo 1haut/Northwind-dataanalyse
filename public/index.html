@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <title>Northwind Mini Dashboard</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -24,7 +24,7 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
   <!-- Template Main CSS File -->
-  <link href="style1.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -144,44 +144,6 @@
                       <div class="card pie-chart">
                         <div class="card-body">
                           <h5 class="card-title">Sales by Category</h5>
-                          <!-- Dropdown button -->
-                          <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                              aria-expanded="false">
-                              Categories
-                            </button>
-                            <ul class="dropdown-menu checkbox-menu">
-                              <form>
-                                <li>
-                                  <label>
-                                    <input type="checkbox" class="select-all" checked>Select All
-                                  </label>
-                                </li>
-                                <li class="divider">
-                                  <hr>
-                                </li>
-                                <li>
-                                  <label>
-                                    <input type="checkbox" class="category" checked>Option 1
-                                  </label>
-                                </li>
-
-                                <li>
-                                  <label>
-                                    <input type="checkbox" class="category" checked>Option 2
-                                  </label>
-                                </li>
-
-                                <li>
-                                  <label>
-                                    <input type="checkbox" class="category" checked>Option 3
-                                  </label>
-                                </li>
-                              </form>
-                            </ul>
-
-                          </div>
-                          <!-- End dropdown button -->
 
                           <!-- Pie Chart -->
                           <canvas id="pieChart" class="chart-canvas"></canvas>
@@ -216,9 +178,12 @@
               <div class="card recent-sales overflow-auto">
 
                 <div class="card-body">
-                  <h5 class="card-title">Database Table</h5>
-                  <button type="button" class="btn btn-info new-btn" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal">New</button>
+                  <div class="over-table">
+                    <h5 class="card-title">Database Table</h5>
+                    <button type="button" class="btn btn-info new-btn" data-bs-toggle="modal"
+                      data-bs-target="#exampleModal">New</button>
+                  </div>
+
                   <table id="example" class="table table-striped table-hover" style="width:100%">
                   </table>
                 </div>
@@ -229,25 +194,6 @@
         </div>
       </div>
     </section>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Add new <span class="tabl">employee</span></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form class="modal-form">
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
 
   <!-- ======= Footer ======= -->
@@ -263,13 +209,35 @@
       Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
     </div>
   </footer><!-- End Footer -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-    crossorigin="anonymous"></script>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add new <span class="tabl">employee</span></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="modal-form">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="saveChangesBtn" data-bs-dismiss="modal">Save
+            changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- jQuery (required for Bootstrap) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
   <script src="https://cdn.datatables.net/v/bs5/dt-2.1.8/b-3.1.2/rr-1.5.0/datatables.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="index.js"></script>
   <script>
     //  Render Line Chart
     async function renderLineChart() {
@@ -362,6 +330,7 @@
         }
       });
     }
+
     // Render Combo Chart
     async function renderComboChart() {
       const response = await fetch('/api/combo-chart');
@@ -426,37 +395,6 @@
       });
     }
 
-    function checkPieChart() {
-      const $selectAllCheck = $(".select-all");
-      const $allOptions = $(".category");
-      let checkedCounter = $allOptions.length;
-
-      // Stop dropdown from closing when clicking inside
-      $(".dropdown-menu").on('click', function (event) {
-        event.stopPropagation();
-      });
-
-      function uncheckSelectAll() {
-        $selectAllCheck.prop('checked', checkedCounter === $allOptions.length);
-      }
-
-      $allOptions.on('click', function () {
-        if ($(this).prop('checked')) {
-          checkedCounter++;
-        } else {
-          checkedCounter--;
-        }
-        uncheckSelectAll();
-        console.log("counter: ", checkedCounter, "options: ", $allOptions.length);
-      });
-
-      $selectAllCheck.on('click', function () {
-        const isChecked = $(this).prop('checked');
-        $allOptions.prop('checked', isChecked);
-        checkedCounter = isChecked ? $allOptions.length : 0;
-        console.log("counter: ", checkedCounter, "options: ", $allOptions.length);
-      });
-    }
     function dataTable1() {
       let table = $(document).ready(function () {
         $.ajax({
@@ -464,9 +402,8 @@
           method: 'GET',
           success: function (data) {
             if (data.length > 0) {
-              // Dynamically extract column names from the first object in the data
               const columns = Object.keys(data[0]).map(key => ({
-                title: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize column names
+                title: key.charAt(0).toUpperCase() + key.slice(1),
                 data: key
               }));
 
@@ -489,31 +426,45 @@
 
               const allData = $('#example').DataTable().rows().data()
               const firstRow = $('#example').DataTable().row().data()
-              console.log(Object.keys(firstRow).length)
 
               const titleCase = (s) =>
                 s.replace(/^_*(.)|_+(.)/g, (s, c, d) => c ? c.toUpperCase() : ' ' + d.toUpperCase())
 
               // Populate form data
               const $form = $('.modal-form');
-              const $container = $('<div>', { class: 'mb-3' }).appendTo($form);
-
-              for (let i = 0; i < Object.keys(firstRow).length; i++) {
-                const column = Object.keys(firstRow)[i]
-                $container.append(`<label for="${column}" class="form-label">${titleCase(column)} </label>`);
-                $container.append(`<input type="text" class="form-control" id="${column}" name="${column}" placeholder="${titleCase(column)}">`);
+              if ($form.children().length < 1) {
+                const $container = $('<div>', { class: 'mb-3' }).appendTo($form);
+                for (let i = 0; i < Object.keys(firstRow).length; i++) {
+                  const column = Object.keys(firstRow)[i]
+                  $container.append(`<label for="${column}" class="form-label">${titleCase(column)} </label>`);
+                  $container.append(`<input type="text" class="form-control" id="${column}" name="${column}" placeholder="${titleCase(column)}">`);
+                }
               }
 
               // Handle Delete button click
               $('#example tbody').on('click', '.delete-btn', function () {
                 const rowData = $('#example').DataTable().row($(this).parents('tr')).data();
-                console.log('Delete clicked for:', rowData);
+
+                if (confirm('Are you sure you want to delete this record?')) {
+                  $.ajax({
+                    url: `/employees/${rowData.employee_id}`,
+                    success: function (response) {
+                      alert('Record deleted successfully.');
+                      $('#example').DataTable().ajax.reload();
+                    },
+                    error: function (xhr, status, error) {
+                      console.error('Error deleting record:', error);
+                      alert('Failed to delete the record. Please try again.');
+                    }
+                  });
+                }
               });
+
 
               // Handle Edit button click
               $('#example tbody').on('click', '.edit-btn', function () {
                 const rowData = $('#example').DataTable().row($(this).parents('tr')).data();
-                $form.attr('method', 'post')
+                $form.attr('method', '')
                 for (let i = 0; i < Object.keys(rowData).length; i++) {
                   const objKey = Object.keys(rowData)[i]
                   const objVal = Object.values(rowData)[i]
@@ -525,17 +476,12 @@
 
               // Handle New button click
               $('.new-btn').on('click', function () {
-                if ($(this).attr("method")) {
-                  console.log("atty")
-                } else {
-                  console.log("notty")
-                }
+                $form.attr('method', 'post')
                 for (let i = 0; i < Object.keys(firstRow).length; i++) {
                   const objKey = Object.keys(firstRow)[i]
                   $(`.modal-body #${objKey}`).val('')
                 }
               })
-                ;
             } else {
               console.warn('No data available to populate the table.');
             }
@@ -545,7 +491,41 @@
           }
         });
       });
+    }
 
+    function postClick() {
+      $(document).ready(function () {
+        $('#saveChangesBtn').on('click', function () {
+          // Collect form data
+          const formData = {};
+          $('.modal-form input').each(function () {
+            formData[$(this).attr('name')] = $(this).val();
+          });
+
+          const method = $('.modal-form').attr('method') === 'post' ? 'POST' : 'PATCH';
+          const url = method === 'POST' ? '/employees' : `/employees/${formData.employee_id}`;
+
+          console.log(method, url, formData)
+
+          // Send HTTP request
+          $.ajax({
+            url: url,
+            method: method,
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function (response) {
+              alert('Success.');
+              $('#example').DataTable().clear().destroy();
+              dataTable1();
+              // $(this).html('')
+            },
+            error: function (xhr, status, error) {
+              console.error('Error saving changes:', error);
+              alert('Failed to save changes. Please try again.');
+            }
+          });
+        });
+      });
 
     }
 
@@ -558,8 +538,8 @@
       renderOrders();
       renderRevenue();
       renderCustomers();
-      checkPieChart();
       dataTable1();
+      postClick();
     });
   </script>
 </body>

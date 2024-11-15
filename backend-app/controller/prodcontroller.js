@@ -7,10 +7,17 @@ db.query("SELECT * FROM products", (req, res) => {
 })
 
 db.query(`
+    ALTER TABLE products ALTER COLUMN discontinued DROP NOT NULL
+    `)
+
+
+db.query(`
     INSERT INTO products(product_id, product_name)
     SELECT 404, 'test'
     WHERE NOT EXISTS (SELECT product_id FROM products WHERE product_id = 404)`
 )
+
+
 
 export const getProducts = async (req, res) => {
     try {
