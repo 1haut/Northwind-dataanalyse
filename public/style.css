@@ -34,15 +34,10 @@ td,
     padding: 18px 25px;
 }
 
-.pie-chart .card-title,
-.pie-chart .dropdown {
+.pie-chart .card-title {
     display: inline
 }
 
-
-.pie-chart .dropdown {
-    float: right
-}
 
 .dropdown button {
     padding: 0.125rem 0.5rem
@@ -78,6 +73,11 @@ h5.card-title>span {
 .card-title,
 .btn {
     font-size: 20px;
+}
+
+.popover-btn {
+    padding: 0 7px;
+    float: right;
 }
 
 .chart-canvas {
