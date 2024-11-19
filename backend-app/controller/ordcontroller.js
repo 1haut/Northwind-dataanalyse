@@ -1,7 +1,23 @@
 import db from "../database.js";
 
+async function setupQueries() {
+    await db.query(`
+        ALTER TABLE order_details ALTER COLUMN unit_price DROP NOT NULL
+        `)
+
+    await db.query(`
+        ALTER TABLE order_details ALTER COLUMN quantity DROP NOT NULL
+        `)
+
+    await db.query(`
+        ALTER TABLE order_details ALTER COLUMN discount DROP NOT NULL
+        `)
+
+}
+
 export const getOrders = async (req, res) => {
     try {
+        await setupQueries()
         const results = await db.query(`
             SELECT 
                 orders.order_id, 
@@ -16,10 +32,7 @@ export const getOrders = async (req, res) => {
         res.json(results.rows)
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({
-            message: err.message,
-            detail: err.detail
-        });
+        res.status(500).json({ message: 'Server error' });
     }
 }
 

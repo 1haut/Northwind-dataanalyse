@@ -2,25 +2,28 @@ import db from "../database.js";
 
 let products = []
 
-db.query("SELECT * FROM products", (req, res) => {
-    products = res.rows
-})
+async function setupQueries() {
+    db.query("SELECT * FROM products", (req, res) => {
+        products = res.rows
+    })
 
-db.query(`
-    ALTER TABLE products ALTER COLUMN discontinued DROP NOT NULL
-    `)
+    await db.query(`
+        ALTER TABLE products ALTER COLUMN discontinued DROP NOT NULL
+        `)
 
 
-db.query(`
-    INSERT INTO products(product_id, product_name)
-    SELECT 404, 'test'
-    WHERE NOT EXISTS (SELECT product_id FROM products WHERE product_id = 404)`
-)
-
+    await db.query(`
+        INSERT INTO products(product_id, product_name)
+        SELECT 404, 'No product'
+        WHERE NOT EXISTS (SELECT product_id FROM products WHERE product_id = 404)`
+    )
+}
 
 
 export const getProducts = async (req, res) => {
     try {
+        await setupQueries()
+
         const results = await db.query(`
             SELECT 
                 product_id,
@@ -52,9 +55,9 @@ export const getProductsById = async (req, res) => {
 
 export const addProduct = async (req, res) => {
     try {
-        const { product_id, product_name, supplier_id, category_id } = req.body
-        await db.query("INSERT INTO products(product_id, product_name, supplier_id, category_id) VALUES ($1, $2, $3, $4)",
-            [product_id, product_name, supplier_id, category_id])
+        const { product_id, product_name, supplier_id, category_id, quantity_per_unit, unit_price, units_in_stock } = req.body
+        await db.query("INSERT INTO products(product_id, product_name, supplier_id, category_id, quantity_per_unit, unit_price, units_in_stock) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+            [product_id, product_name, supplier_id, category_id, quantity_per_unit, unit_price, units_in_stock])
         res.json("Product has been added.")
     } catch (err) {
         console.error(err);
@@ -75,9 +78,22 @@ export const updateProduct = async (req, res) => {
         const productName = req.body.product_name || product.product_name
         const supplierId = req.body.supplier_id || product.supplier_id
         const categoryId = req.body.category_id || product.category_id
+        const quantityPerUnit = req.body.quantity_per_unit || product.quantity_per_unit
+        const unitPrice = req.body.unit_price || product.unit_price
+        const unitsInStock = req.body.units_in_stock || product.units_in_stock
 
-        await db.query("UPDATE products SET product_id = $1, product_name = $2, supplier_id = $3, category_id = $4 WHERE product_id = $5",
-            [productId, productName, supplierId, categoryId, req.params.id])
+        await db.query(`
+            UPDATE products 
+            SET product_id = $1, 
+                product_name = $2, 
+                supplier_id = $3, 
+                category_id = $4,
+                quantity_per_unit = $5,
+                unit_price = $6,
+                units_in_stock = $7
+            WHERE product_id = $8
+            `,
+            [productId, productName, supplierId, categoryId, quantityPerUnit, unitPrice, unitsInStock, req.params.id])
         res.json("Product has been updated.")
     } catch (err) {
         res.json({ message: err.message })
@@ -95,6 +111,9 @@ export const deleteProduct = async (req, res) => {
         res.json("Your product has been deleted.")
     } catch (err) {
         console.log(err)
-        res.json({ message: err.message, detail: err.detail })
+        res.json({
+            message: err.message,
+            detail: err.detail
+        })
     }
 }

@@ -49,6 +49,7 @@ app.get('/api/bar-chart', async (req, res) => {
         FROM orders
         JOIN employees
         ON orders.employee_id = employees.employee_id
+		WHERE NOT employees.employee_id = 404
         GROUP BY employees.employee_id
         ORDER BY number_of_sales DESC;
         `);

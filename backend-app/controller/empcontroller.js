@@ -2,18 +2,26 @@ import db from "../database.js";
 
 let employees = []
 
-db.query("SELECT * FROM employees", (req, res) => {
-    employees = res.rows
-})
+async function setupQueries() {
+    db.query("SELECT * FROM employees", (req, res) => {
+        employees = res.rows
+    })
 
-db.query(`
-    INSERT INTO employees(employee_id, first_name, last_name)
-    SELECT 404, 'Previous', 'Employees'
-    WHERE NOT EXISTS (SELECT employee_id FROM employees WHERE employee_id = 404)`
-)
+    await db.query(`
+        ALTER TABLE employee_territories
+        DROP CONSTRAINT IF EXISTS fk_employee_territories_employees 
+        `)
+
+    await db.query(`
+        INSERT INTO employees(employee_id, first_name, last_name)
+        SELECT 404, 'Previous', 'Employees'
+        WHERE NOT EXISTS (SELECT employee_id FROM employees WHERE employee_id = 404)`
+    )
+}
 
 export const getEmployees = async (req, res) => {
     try {
+        await setupQueries()
         const results = await db.query("SELECT employee_id, first_name, last_name, address, city, home_phone FROM employees WHERE NOT employee_id = 404")
         res.json(results.rows)
     } catch (err) {
@@ -84,7 +92,7 @@ export const deleteEmployee = async (req, res) => {
         await db.query("UPDATE orders SET employee_id = 404 WHERE employee_id = $1", [req.params.id])
         await db.query("DELETE FROM employees WHERE employee_id = $1", [req.params.id])
         res.json("Data has been successfully removed.")
-    } catch (error) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).json({
             message: err.message,
