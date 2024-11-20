@@ -2,16 +2,16 @@
 
 The goal of this project is at base educational, to expand my own knowledge in use of SQL, CRUD-operations, handling of data and data analytics. In addition, favorable outcomes rests on the understaning of the interaction between database, app and server.
 
-Technologies used:
+**Technologies used:**
 
-Database: PostgreSQL
+**Database:** PostgreSQL
 
-Programming languages: node.js
+**Programming languages:** node.js
 
-Frameworks: express.js (Backend), Bootstrap (Frontend)
+**Frameworks:** express.js (Backend), Bootstrap (Frontend)
 
-Libraries: npm, jQuery, DataTables, chart.js
+**Libraries:** npm, jQuery, DataTables, chart.js
 
-NPM packages: pg, inquirer
+**NPM packages:** pg, inquirer
 
-
+## Usage
