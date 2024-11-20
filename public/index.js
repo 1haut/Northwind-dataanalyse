@@ -158,11 +158,14 @@ function dataTable1() {
 
     console.log(displayTable)
 
+    const titleCase = (s) =>
+        s.replace(/^_*(.)|_+(.)/g, (s, c, d) => c ? c.toUpperCase() : ' ' + d.toUpperCase())
+
     $tableForm.on('change', function () {
-        if (displayTable !== "") {
-            $('#example').DataTable().destroy();
-            $('#example').empty();
-        }
+        // Clears the table
+        $('#example').DataTable().destroy();
+        $('#example').empty();
+
         displayTable = $('#table-picker :selected').val()
         console.log(displayTable)
         $.ajax({
@@ -171,7 +174,7 @@ function dataTable1() {
             success: function (data) {
                 if (data.length > 0) {
                     const columns = Object.keys(data[0]).map(key => ({
-                        title: key.charAt(0).toUpperCase() + key.slice(1),
+                        title: titleCase(key),
                         data: key
                     }));
 
@@ -197,8 +200,7 @@ function dataTable1() {
 
                     const allData = $('#example').DataTable().rows().data()
                     const firstRow = $('#example').DataTable().row().data()
-                    const titleCase = (s) =>
-                        s.replace(/^_*(.)|_+(.)/g, (s, c, d) => c ? c.toUpperCase() : ' ' + d.toUpperCase())
+
 
                     // Populate form data
                     const $form = $('.modal-form');

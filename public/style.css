@@ -107,9 +107,8 @@ h5.card-title>span {
     justify-content: space-between;
 }
 
-.pagination>li>*,
-.pagination>li {
-    color: #1E5162
+th {
+    text-align: center !important;
 }
 
 /*--------------------------------------------------------------
