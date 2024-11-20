@@ -3,7 +3,6 @@ import db from "../database.js";
 let customers = []
 
 
-
 async function setupQueries() {
     db.query("SELECT * FROM customers", (req, res) => {
         customers = res.rows

@@ -5,6 +5,7 @@ import routes from "./router/router.js"
 const app = express();
 const port = 8989;
 
+// Middleware and routing
 app.use(bodyParser.json());
 app.use(routes);
 

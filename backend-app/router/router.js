@@ -1,8 +1,8 @@
 import express from "express";
-import { getProducts, getProductsById, addProduct, updateProduct, deleteProduct } from "../controller/prodcontroller.js";
-import { getEmployees, getEmployeesById, addEmployee, updateEmployee, deleteEmployee } from "../controller/empcontroller.js";
-import { getCustomers, addCustomer, updateCustomer, deleteCustomer } from "../controller/custcontroller.js";
-import { getOrders, addOrder } from "../controller/ordcontroller.js";
+import { getProducts, getProductsById, addProduct, updateProduct, deleteProduct } from "../controller/productController.js";
+import { getEmployees, getEmployeesById, addEmployee, updateEmployee, deleteEmployee } from "../controller/employeeController.js";
+import { getCustomers, addCustomer, updateCustomer, deleteCustomer } from "../controller/customerController.js";
+import { getOrders, addOrder } from "../controller/orderController.js";
 
 const router = express.Router();
 

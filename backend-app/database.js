@@ -1,5 +1,6 @@
 import pg from "pg";
 
+// Connection information
 const db = new pg.Client({
     user: "postgres",
     host: "localhost",

@@ -64,8 +64,8 @@ export const updateEmployee = async (req, res) => {
         const employeeId = req.body.employee_id || employee.employee_id
         const firstName = req.body.first_name || employee.first_name
         const lastName = req.body.last_name || employee.last_name
-        const empAddress = req.body.address || employee.address
-        const empCity = req.body.city || employee.city
+        const address = req.body.address || employee.address
+        const city = req.body.city || employee.city
         const phone = req.body.home_phone || employee.home_phone
 
         await db.query(`
@@ -80,7 +80,7 @@ export const updateEmployee = async (req, res) => {
             WHERE 
                 employee_id = $7
             `,
-            [employeeId, firstName, lastName, empAddress, empCity, phone, req.params.id])
+            [employeeId, firstName, lastName, address, city, phone, req.params.id])
         res.json("Data has been successfully updated.")
     } catch (err) {
         res.json({ message: err.message })
