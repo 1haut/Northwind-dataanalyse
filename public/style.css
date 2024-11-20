@@ -53,7 +53,6 @@ h5.card-title>span {
     color: #D3D3D3;
 }
 
-
 .charts-container {
     margin: 20px 0
 }
@@ -63,7 +62,6 @@ h5.card-title>span {
     font-weight: bold;
     color: #1E5162;
 }
-
 
 .card-title {
     color: #1E5162;
@@ -93,6 +91,19 @@ h5.card-title>span {
 @media only screen and (min-width: 576px) and (max-width: 991px) {
     .customers-card {
         margin-top: 20px;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    h6.card-value {
+        font-size: 24px;
+        padding: 0.2rem
+    }
+
+    h5.card-title {
+        font-size: 18px;
+        margin: 0;
+        padding: 0;
     }
 }
 

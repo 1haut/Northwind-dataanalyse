@@ -1,7 +1,7 @@
 import express from "express"
 import pg from "pg";
-import fs from "fs";
 import bodyParser from "body-parser";
+import db from './backend-app/database.js'
 import routes from "./backend-app/router/router.js"
 
 const app = express();
@@ -10,15 +10,6 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(routes);
 
-const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "northwind",
-    password: "dnnasteY",
-    port: 5433,
-});
-
-db.connect();
 
 app.use(express.static('public'));
 
