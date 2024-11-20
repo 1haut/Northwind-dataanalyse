@@ -139,7 +139,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-lg-6">
                                             <div class="card pie-chart">
                                                 <div class="card-body">
@@ -155,16 +154,12 @@
                                                                 d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
                                                         </svg>
                                                     </button>
-
                                                     <!-- Pie Chart -->
                                                     <canvas id="pieChart" class="chart-canvas"></canvas>
-
                                                     <!-- End Pie CHart -->
-
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-lg-6">
                                             <div class="card">
                                                 <div class="card-body">
@@ -176,11 +171,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
-
                             </div>
                         </div><!-- End Reports -->
 
@@ -254,7 +246,7 @@
             </div>
         </div>
     </div>
-    <!-- jQuery (required for Bootstrap) -->
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
     <!-- Bootstrap JS -->
@@ -426,7 +418,8 @@
 
             $tableForm.on('change', function () {
                 if (displayTable !== "") {
-                    // Clear table
+                    $('#example').DataTable().destroy();
+                    $('#example').empty();
                 }
                 displayTable = $('#table-picker :selected').val()
                 console.log(displayTable)
@@ -467,14 +460,17 @@
 
                             // Populate form data
                             const $form = $('.modal-form');
-                            if ($form.children().length < 1) {
-                                const $container = $('<div>', { class: 'mb-3' }).appendTo($form);
-                                for (let i = 0; i < Object.keys(firstRow).length; i++) {
-                                    const column = Object.keys(firstRow)[i]
-                                    $container.append(`<label for="${column}" class="form-label">${titleCase(column)} </label>`);
-                                    $container.append(`<input type="text" class="form-control" id="${column}" name="${column}" placeholder="${titleCase(column)}">`);
-                                }
+                            if ($form.children().length > 0) {
+                                $('.modal-body .mb-3').remove();
                             }
+
+                            const $container = $('<div>', { class: 'mb-3' }).appendTo($form);
+                            for (let i = 0; i < Object.keys(firstRow).length; i++) {
+                                const column = Object.keys(firstRow)[i]
+                                $container.append(`<label for="${column}" class="form-label">${titleCase(column)} </label>`);
+                                $container.append(`<input type="text" class="form-control" id="${column}" name="${column}" placeholder="${titleCase(column)}">`);
+                            }
+
 
                             // Handle Delete button click
                             $('#example tbody').on('click', '.delete-btn', function () {
@@ -520,6 +516,7 @@
                                 console.log('Edit clicked for:', rowData);
                             })
 
+                            console.log(firstRow)
                             // Handle New button click
                             $('.new-btn').on('click', function () {
                                 $form.attr('method', 'post')
