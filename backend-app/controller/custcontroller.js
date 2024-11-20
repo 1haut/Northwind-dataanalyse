@@ -2,18 +2,23 @@ import db from "../database.js";
 
 let customers = []
 
-db.query("SELECT * FROM customers", (req, res) => {
-    customers = res.rows
-})
 
-db.query(`
-    INSERT INTO customers(customer_id, company_name)
-    SELECT 'BLANK', 'Old Customer'
-    WHERE NOT EXISTS (SELECT customer_id FROM customers WHERE customer_id = 'BLANK')`
-)
+
+async function setupQueries() {
+    db.query("SELECT * FROM customers", (req, res) => {
+        customers = res.rows
+    })
+
+    db.query(`
+        INSERT INTO customers(customer_id, company_name)
+        SELECT 'BLANK', 'Old Customer'
+        WHERE NOT EXISTS (SELECT customer_id FROM customers WHERE customer_id = 'BLANK')`
+    )
+}
 
 export const getCustomers = async (req, res) => {
     try {
+        await setupQueries()
         const results = await db.query(`
             SELECT  customer_id, 
                     company_name, 

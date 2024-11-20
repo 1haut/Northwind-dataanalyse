@@ -420,18 +420,6 @@
             });
         }
 
-        function tablePicker() {
-            const $tableForm = $('#table-picker')
-            let displayTable = 'employees' // Default table shown
-
-            console.log(displayTable)
-
-            $tableForm.on('change', function () {
-                displayTable = $('#table-picker :selected').val()
-                console.log(displayTable)
-            })
-        }
-
         function dataTable1() {
             const $tableForm = $('#table-picker')
             let displayTable = $('#table-picker :selected').val() // Default table shown
@@ -555,20 +543,22 @@
         function postClick() {
             $(document).ready(function () {
                 $('#saveChangesBtn').on('click', function () {
-                    displayTable = $('#table-picker :selected').val()
+                    const displayTable = $('#table-picker :selected').val()
+                    const allData = $('#example').DataTable().rows().data()
+                    let rowId
                     // Collect form data
                     const formData = {};
                     $('.modal-form input').each(function () {
                         formData[$(this).attr('name')] = $(this).val();
                     });
 
-                    let rowId
+
 
                     if (displayTable === 'customers') {
                         for (let i = 0; i < allData.length; i++) {
-                            if (allData[i].customer_id == rowData.customer_id) {
-                                console.log(i + 1, rowData.customer_id, displayTable)
-                                rowId = i + 1
+                            if (allData[i].customer_id == formData.customer_id) {
+                                console.log(i + 1, formData.customer_id, displayTable)
+                                rowId = i
                             }
                         }
                     }
@@ -586,9 +576,6 @@
                         success: function (response) {
                             alert('Success.');
                             location.reload()
-                            // $('#example').DataTable().clear().destroy();
-                            // dataTable1();
-                            // $(this).html('')
                         },
                         error: function (xhr, status, error) {
                             console.error('Error saving changes:', error);
@@ -613,7 +600,6 @@
             renderOrders();
             renderRevenue();
             renderCustomers();
-            // tablePicker();
             dataTable1();
             postClick();
             initPopover();
