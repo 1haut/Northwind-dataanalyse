@@ -264,138 +264,136 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="index.js"></script>
     <script>
-        //  Render Line Chart
-        async function renderLineChart() {
-            const response = await fetch('/api/line-chart');
-            const data = await response.json();
-            const labels = data.map(item => item.month);
-            const salesData = data.map(item => item.sales_count);
+        // Render Line Chart
+        function renderLineChart() {
+            $.getJSON('/api/line-chart', function (data) {
+                const labels = data.map(item => item.month);
+                const salesData = data.map(item => item.sales_count);
 
-            let gradientFill = document.getElementById('lineChart').getContext("2d")
-                .createLinearGradient(0, 250, 0, 32);
-            gradientFill.addColorStop(1, 'rgb(173, 216, 230)');
-            gradientFill.addColorStop(0, 'rgb(255,255,255)');
+                const gradientFill = $('#lineChart')[0].getContext("2d")
+                    .createLinearGradient(0, 250, 0, 32);
+                gradientFill.addColorStop(1, 'rgb(173, 216, 230)');
+                gradientFill.addColorStop(0, 'rgb(255,255,255)');
 
-            let myChart = new Chart(document.querySelector('#lineChart'), {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Monthly Sales',
-                        data: salesData,
-                        borderColor: 'rgb(173, 216, 230)',
-                        fill: {
-                            target: 'origin',
-                            above: gradientFill
-                        },
-                        tension: 0.1
-                    }]
-                },
-                options: {
-                    animation: {
-                        easing: "easeInOutExpo"
+                new Chart($('#lineChart')[0], {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Monthly Sales',
+                            data: salesData,
+                            borderColor: 'rgb(173, 216, 230)',
+                            fill: {
+                                target: 'origin',
+                                above: gradientFill
+                            },
+                            tension: 0.1
+                        }]
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true
+                    options: {
+                        animation: {
+                            easing: "easeInOutExpo"
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
+                });
             });
         }
 
         // Render Bar Chart
-        async function renderBarChart() {
-            const response = await fetch('/api/bar-chart');
-            const data = await response.json();
-            const labels = data.map(item => item.full_name);
-            const orderData = data.map(item => item.number_of_sales);
+        function renderBarChart() {
+            $.getJSON('/api/bar-chart', function (data) {
+                const labels = data.map(item => item.full_name);
+                const orderData = data.map(item => item.number_of_sales);
 
-
-            let myChart = new Chart(document.querySelector('#barChart'), {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '# of Orders',
-                        data: orderData,
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: { scales: { y: { beginAtZero: true } } }
+                new Chart($('#barChart')[0], {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '# of Orders',
+                            data: orderData,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { scales: { y: { beginAtZero: true } } }
+                });
             });
         }
 
         // Render Pie Chart
-        async function renderPieChart() {
-            const response = await fetch('/api/pie-chart');
-            const data = await response.json();
-            const labels = data.map(item => item.category_name);
-            const productData = data.map(item => item.sales_per_category);
+        function renderPieChart() {
+            $.getJSON('/api/pie-chart', function (data) {
+                const labels = data.map(item => item.category_name);
+                const productData = data.map(item => item.sales_per_category);
 
-            let myChart = new Chart(document.querySelector('#pieChart'), {
-                type: 'pie',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: productData,
-                        backgroundColor: [
-                            'rgb(244, 122, 31)',
-                            'rgb(253, 187, 47)',
-                            'rgb(55, 123, 43)',
-                            'rgb(122, 193, 66)',
-                            'rgb(0, 124, 195)',
-                            'rgb(0, 82, 155)',
-                            'rgb(138, 43, 226)',
-                            'rgb(227, 38, 54)'
-                        ]
-                    }]
-                }
+                new Chart($('#pieChart')[0], {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: productData,
+                            backgroundColor: [
+                                'rgb(244, 122, 31)',
+                                'rgb(253, 187, 47)',
+                                'rgb(55, 123, 43)',
+                                'rgb(122, 193, 66)',
+                                'rgb(0, 124, 195)',
+                                'rgb(0, 82, 155)',
+                                'rgb(138, 43, 226)',
+                                'rgb(227, 38, 54)'
+                            ]
+                        }]
+                    }
+                });
             });
         }
 
         // Render Combo Chart
-        async function renderComboChart() {
-            const response = await fetch('/api/combo-chart');
-            const data = await response.json();
+        function renderComboChart() {
+            $.getJSON('/api/combo-chart', function (data) {
+                const newLabels = data.map(item => item.product_name);
+                const lineData = data.map(item => item.product_sales);
+                const barData = data.map(item => item.units_in_stock);
 
-            const newLabels = data.map(item => item.product_name);
-            const lineData = data.map(item => item.product_sales);
-            const barData = data.map(item => item.units_in_stock);
-
-            const combinedChart = new Chart(document.querySelector('#comboBarLine'), {
-                type: 'bar',
-                data: {
-                    labels: newLabels,
-                    datasets: [
-                        {
-                            label: 'Units (Bar)',
-                            data: barData,
-                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1,
-                            type: 'bar'
-                        },
-                        {
-                            label: 'Sales (Line)',
-                            data: lineData,
-                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            borderWidth: 2,
-                            type: 'line',
-                            fill: false
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
+                new Chart($('#comboBarLine')[0], {
+                    type: 'bar',
+                    data: {
+                        labels: newLabels,
+                        datasets: [
+                            {
+                                label: 'Units (Bar)',
+                                data: barData,
+                                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1,
+                                type: 'bar'
+                            },
+                            {
+                                label: 'Sales (Line)',
+                                data: lineData,
+                                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 2,
+                                type: 'line',
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
+                });
             });
         }
 
@@ -428,6 +426,7 @@
 
             $tableForm.on('change', function () {
                 if (displayTable !== "") {
+                    // Clear table
                 }
                 displayTable = $('#table-picker :selected').val()
                 console.log(displayTable)
