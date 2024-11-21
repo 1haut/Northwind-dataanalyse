@@ -12,8 +12,6 @@ The goal of this project is at base educational, to expand my own knowledge in u
 
 **Libraries:** npm, jQuery, DataTables, chart.js
 
-**NPM packages:** pg, inquirer
-
 ## Usage
 
 (This usage guide assumes that you have installed PostgreSQL and node.js)
