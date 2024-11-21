@@ -57,8 +57,6 @@ export const updateCustomer = async (req, res) => {
         if (!(customer)) {
             return res.json({ error: "No customers with this id was found" })
         }
-
-        // Either user input or current value
         const customerId = req.body.customer_id || customer.customer_id
         const companyName = req.body.company_name || customer.company_name
         const contactName = req.body.contact_name || customer.contact_name

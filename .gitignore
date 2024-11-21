@@ -9,4 +9,4 @@ templates/
 reformat.html
 ddc/
 style2.css
-assets/sql/database_qol
+assets\sql\database_qol
