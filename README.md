@@ -15,3 +15,20 @@ The goal of this project is at base educational, to expand my own knowledge in u
 **NPM packages:** pg, inquirer
 
 ## Usage
+
+(This usage guide assumes that you have installed PostgreSQL and node.js)
+
+1. Follow this [link](https://github.com/pthom/northwind_psql) for instructions on how to download the Northwind database
+
+2. Clone the repository onto your local environment or download this repository
+```bash
+git clone 1haut/Northwind-dataanalyse
+```
+3. Install all dependencies
+```bash
+npm install
+```
+4. Run apps
+   - Hello
+   - Hai
+   - Ohai
