@@ -47,7 +47,7 @@ db.connect();
      ```bash
      node queries.js
      ```
-   - the backend app with CRUD operations, run the main.js-file with node.js,
+   - the backend app with CRUD operations, run the main.js-file with node.js, and make API calls to server
      ```bash
      node /backend-app/main.js
      ```
