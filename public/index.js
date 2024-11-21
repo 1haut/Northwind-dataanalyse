@@ -65,7 +65,7 @@ function renderBarChart() {
 function renderPieChart() {
     $.getJSON('/api/pie-chart', function (data) {
         const labels = data.map(item => item.category_name);
-        const productData = data.map(item => item.sales_per_category);
+        const productData = data.map(item => item.orders_per_category);
 
         new Chart($('#pieChart')[0], {
             type: 'pie',
@@ -172,7 +172,7 @@ function dataTable1() {
             url: `/${displayTable}`,
             method: 'GET',
             success: function (data) {
-                if (data.length > 0) {
+                if (data.length > 0 && displayTable !== '') {
                     const columns = Object.keys(data[0]).map(key => ({
                         title: titleCase(key),
                         data: key
@@ -207,7 +207,6 @@ function dataTable1() {
                     if ($form.children().length > 0) {
                         $('.modal-body .mb-3').remove();
                     }
-
                     const $container = $('<div>', { class: 'mb-3' }).appendTo($form);
                     for (let i = 0; i < Object.keys(firstRow).length; i++) {
                         const column = Object.keys(firstRow)[i]
@@ -292,7 +291,7 @@ function postClick() {
             });
 
 
-
+            // Set rowId (as a numeric customerId) 
             if (displayTable === 'customers') {
                 for (let i = 0; i < allData.length; i++) {
                     if (allData[i].customer_id == formData.customer_id) {
@@ -301,7 +300,7 @@ function postClick() {
                     }
                 }
             }
-
+            // 
             const method = $('.modal-form').attr('method') === 'post' ? 'POST' : 'PATCH';
             const url = method === 'POST' ? `/${displayTable}` : `/${displayTable}/${formData.order_id || formData.product_id || formData.employee_id || rowId}`;
             console.log(method, url, formData)

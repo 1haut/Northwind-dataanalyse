@@ -1,5 +1,4 @@
 import express from "express"
-import pg from "pg";
 import bodyParser from "body-parser";
 import db from './backend-app/database.js'
 import routes from "./backend-app/router/router.js"
@@ -7,6 +6,8 @@ import routes from "./backend-app/router/router.js"
 const app = express();
 const port = 3000;
 
+
+// Middleware and routing
 app.use(bodyParser.json());
 app.use(routes);
 
@@ -55,7 +56,7 @@ app.get('/api/bar-chart', async (req, res) => {
 app.get('/api/pie-chart', async (req, res) => {
     try {
         const result = await db.query(`
-        SELECT categories.category_name, COUNT(categories.category_id) AS sales_per_category
+        SELECT categories.category_name, COUNT(categories.category_id) AS orders_per_category
         FROM products
         JOIN order_details ON products.product_id = order_details.product_id
         JOIN categories ON products.category_id = categories.category_id
@@ -94,7 +95,7 @@ app.get('/api/orders-num', async (req, res) => {
         FROM orders
         WHERE order_date > '1998-01-01'
       `);
-        res.json(result.rows[0].orders_num);  // Return the result as a number
+        res.json(result.rows[0].orders_num);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
