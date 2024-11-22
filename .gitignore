@@ -1,12 +1,10 @@
 ekstra/
 test.js
-d-index.js
-delete.js
-crud-simple.js
-views/index-storage.html
 exttest/
 templates/
 reformat.html
 ddc/
 style2.css
-assets/sql/northwind_psql/
+assets/sql/northwind_psql
+assets\sql\northwind_psql
+assets/supl/hello.txt
