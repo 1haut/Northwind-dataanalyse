@@ -17,3 +17,5 @@ GROUP BY categories.category_id
 │ 6       │ 'Meat/Poultry'   │ '173'              │
 │ 7       │ 'Confections'    │ '334'              │
 └─────────┴──────────────────┴────────────────────┘
+
+Staples such as meat and produce and grains are not strongly represented in the number of orders, however beverages category are by far the most popular category based on the number of orders.

@@ -32,3 +32,5 @@ ORDER BY order_month;
 │ 21      │ '1998-4'    │ '74'  │
 │ 22      │ '1998-5'    │ '14'  │
 └─────────┴─────────────┴───────┘
+
+These number indicate a strong rise in number of orders in Q1 of 1998, and the start of Q2, until May, where the number of orders seems to lower dramatically. May of 1998 is by far the month with the least amount of orders since the beginning of the records. In addition, there is a miniscule, but consistent rise in number of orders in the month of December

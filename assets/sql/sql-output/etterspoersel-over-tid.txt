@@ -43,3 +43,5 @@ ORDER BY months.order_month;
 │ 21      │ 'Geitost' │ '1998-04'   │ '3'             │
 │ 22      │ 'Geitost' │ '1998-05'   │ '0'             │
 └─────────┴───────────┴─────────────┴─────────────────┘
+
+Geitost does not seem to 

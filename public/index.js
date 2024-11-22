@@ -72,6 +72,7 @@ function renderPieChart() {
             data: {
                 labels: labels,
                 datasets: [{
+                    label: 'Orders',
                     data: productData,
                     backgroundColor: [
                         'rgb(244, 122, 31)',
@@ -172,7 +173,7 @@ function dataTable1() {
             url: `/${displayTable}`,
             method: 'GET',
             success: function (data) {
-                if (data.length > 0) {
+                if (data.length > 0 && displayTable.length > 0) {
                     const columns = Object.keys(data[0]).map(key => ({
                         title: titleCase(key),
                         data: key

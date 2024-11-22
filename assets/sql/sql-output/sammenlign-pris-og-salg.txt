@@ -32,3 +32,5 @@ ORDER BY price_range;
 │ 9       │ '90.001-100' │ '15'         │
 │ 10      │ 'over 100'   │ '40'         │
 └─────────┴──────────────┴──────────────┘
+
+The customers of Northwinds seems particularly price sensitive (given only 40 orders for products priced above 100 dollars per unit, products priced under 20 dollar representing above half of all orders, and less than a tenth of all orders priced above 50 dollars)
